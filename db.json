@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "name": "anil",
+      "email": "anil@test",
+      "password": "abc@123"
+    },
+    {
+      "id": "5509",
+      "email": "kjjb@dd",
+      "password": "jnnj",
+      "name": "hh"
+    },
+    {
+      "id": "d513",
+      "email": "mode@gmail",
+      "password": "sdnjd",
+      "name": "mean"
+    },
+    {
+      "id": "5563",
+      "email": "asasasas",
+      "password": "sa",
+      "name": "as"
+    }
+  ]
+}
