@@ -3,7 +3,8 @@
     {
       "name": "anil",
       "email": "anil@test",
-      "password": "abc@123"
+      "password": "abc@123",
+      "id": "bc4b"
     },
     {
       "id": "5509",
@@ -22,6 +23,38 @@
       "email": "asasasas",
       "password": "sa",
       "name": "as"
+    },
+    {
+      "id": "527b",
+      "email": "sd",
+      "password": "dsds",
+      "name": "  xmskkdi"
+    },
+    {
+      "id": "0284",
+      "email": "ewef",
+      "password": "dwee",
+      "name": "sdfsfd"
+    }
+  ],
+  "admin": [
+    {
+      "name": "sheela",
+      "email": "sheela123",
+      "password": "sheela123",
+      "id": "28ae"
+    },
+    {
+      "id": "1e80",
+      "email": "karthi@test",
+      "password": "karthi123",
+      "name": "karthi"
+    },
+    {
+      "id": "2fc5",
+      "email": "kmlkmlk",
+      "password": "kmlkm",
+      "name": "sakndksan"
     }
   ]
 }
