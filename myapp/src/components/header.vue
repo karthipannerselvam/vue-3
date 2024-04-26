@@ -1,7 +1,10 @@
 <template>
     <div>
-    <h1>Header</h1>
+    <div class="head">
+     <img src="" alt="">
     <button v-on:click="logout">Logout</button>
+</div>
+
 </div>
 </template>
 <script>
@@ -15,3 +18,16 @@ export default {
     }
 }
 </script>
+<style scoped>
+.head{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+button {
+  margin-right: 10px;
+}
+
+
+</style>

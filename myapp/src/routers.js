@@ -37,8 +37,8 @@ const routes = [
     component: SlotMain,
     path: '/slot-main',
     meta: {
-      requiresAuth: false, // Explicitly set to false for non-protected routes
-    },
+        requiresAuth: true,
+      },
   },
 ];
 
@@ -47,15 +47,16 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('user') !== null; // Check for login status
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+// router.beforeEach((to, from, next) => {
+//     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//     const isAdmin = this.$store?.state.isAdmin || localStorage.getItem('user-info')?.includes('admin'); // (Replace with actual admin check)
+  
+//     if (requiresAuth && !isAdmin) {
+//       next({ name: 'AdminLogin' }); // Redirect to login page if not admin
+//     } else {
+//       next(); 
+//     }
+//   });
 
-  if (requiresAuth && !isAuthenticated) {
-    next('/log-in'); // Redirect to login for protected routes if not logged in
-  } else {
-    next(); // Allow access
-  }
-});
 
 export default router;
