@@ -42,14 +42,14 @@ export default {
 
         try{
 
-            let result= await axios.post("http://localhost:3000/admin",{
+            let result= await axios.post("http://localhost:3030/admin",{
                 email:this.email,
                 password:this.password,
-                name:this.name
+                username:this.name
             });
 
             console.warn(result);
-            if(result.status==201){
+            if(result.status==200){
                 localStorage.setItem("user-info",JSON.stringify(result.data))
                 this.$router.push({name:"Home"})
             }

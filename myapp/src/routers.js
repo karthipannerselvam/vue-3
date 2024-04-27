@@ -5,6 +5,7 @@ import Login from './components/login.vue';
 import AdminLogin from './components/adminlogin.vue';
 import AdminSignup from './components/adminsignup.vue';
 import SlotMain from './components/slotmain.vue';
+import SlotTable from './components/slottable.vue'
 
 const routes = [
   {
@@ -39,6 +40,11 @@ const routes = [
     meta: {
         requiresAuth: true,
       },
+  },
+  {
+    name:"SlotTable",
+    component:SlotTable,
+    path:'/slot-table',
   },
 ];
 
