@@ -10,11 +10,10 @@
             
           
             <label for="">Batch</label>
-            <select class="input" v-model="eventBatch">
-              <option value="2027">2027</option>
-              <option value="2026">2026</option>
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
+            <select class="input" v-model="eventBatch" >
+              <option v-for="batch in batches" :key="batch._id" :value="batch._id">
+                {{ batch.year }}
+                </option>
             </select>
           </div>
           <div class="split1">
@@ -82,18 +81,23 @@ export default {
       },
       selectedSlotValues() {
         return this.selectedSlots.map(slot => slot.Slots);
-      }
+      },
+      selectedBatchName() {
+      const selectedBatch = this.batches.find(batch => batch._id === this.eventBatch);
+      return selectedBatch ? selectedBatch.year : '';
+  },
     },
     data() {
     return {
       eventName: '',
       eventDate: '',
-   
       eventBatch:'',
       count: 1,
       successMessage: '', 
       slots: Array(this.count).fill({ venueName: '',faculty: '', studentCapacity: '' }),
       selectedSlots: [],
+      batches: [],
+      batch:'',
       options: [
     	{	Timing: '9.00am - 9.30am', Slots: 'Slot-1' },
       { Timing: '9.30am - 10.00am', Slots: 'Slot-2' },
@@ -109,9 +113,19 @@ export default {
     };
  },
  methods: {
+  async fetchBatches() {
+            try {
+                const response = await axios.get('http://127.0.0.1:3030/batches');
+                this.batches = response.data;
+            } catch (error) {
+                console.error('Error fetching batches:', error);
+                this.error = true; 
+            }
+            },
   customLabel (option) {
       return `${option.Slots} - ${option.Timing} `
     },
+    
     incrementCount() {
       this.count++;
       this.slots.push({ venueName: '', faculty: '', studentCapacity: 0 });
@@ -127,7 +141,8 @@ export default {
     },
     async submitSlot() {
     try {
-      const venues = this.slots;;
+
+      const venues = this.slots;
       for (let i = 1; i <= this.count; i++) {
         const venueName = `slot-${i}-venueName`; 
         const faculty = `slot-${i}-faculty`; 
@@ -137,11 +152,11 @@ export default {
       const response = await axios.post('http://localhost:3030/slots', {
         EventName: this.eventName,
         Date: this.eventDate,
-        // Duration: this.eventDuration,
         Venue: this.eventVenue, 
-        Batch: this.eventBatch, 
+        batch: this.eventBatch, 
         Venues:venues,
         SelectedSlots: this.selectedSlotValues,
+        SelecedBatch:this.selectedBatchName,
       });
 
       this.successMessage = 'Slot saved successfully!';
@@ -160,6 +175,10 @@ export default {
       }
     }
  },
+ mounted(){
+  this.fetchBatches();
+ },
+
  
 }
 

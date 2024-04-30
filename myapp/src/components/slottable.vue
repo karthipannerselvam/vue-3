@@ -42,7 +42,7 @@
                         </table>
                      </td>
                         <td>{{ slot.SelectedSlots.join(', ') }} </td>
-                        <td>{{ slot.Batch }}</td>
+                        <td>{{ slot.SelecedBatch }}</td>
                     </tr>
                 </tbody>
             </table>
