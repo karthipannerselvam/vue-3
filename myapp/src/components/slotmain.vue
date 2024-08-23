@@ -1,6 +1,13 @@
 <template>
-    <div>
-        <Header/>
+    <div class="container">
+        
+        <nav class="sidenav">
+          <ul>
+            <li><a href="#">Student Dashboard</a></li>
+            <li @click="$router.push('/slot-table')">Slot Table</li>
+          </ul>
+        </nav>
+        <div class="main-contant">
         <div class="box1">
             <div class="split1">
             <label for="">Name of the Event</label>
@@ -56,8 +63,8 @@
               </div>
             </form>
         </div>
-        <button @click="$router.push('/slot-table')">Show Table</button>
-    
+        <!-- <button @click="$router.push('/slot-table')">Show Table</button> -->
+      </div>
     </div>
 </template>
 
@@ -71,7 +78,7 @@ import VueMultiselect from 'vue-multiselect'
 export default {
     name:'SlotMain',
     components:{
-        Header,
+       
         VueMultiselect,
         
     },
@@ -186,35 +193,73 @@ export default {
 </script>
 <style  src="vue-multiselect/dist/vue-multiselect.css"></style>
 <style scoped>
-
+.container{
+  display: flex;
+}
 .box1{
     margin: 0 auto;
     padding: 50px;
     /* height: 500px; */
-    width: 1400px;
+    width: 1200px;
     background-color: rgb(210, 239, 255);
     border-radius: 10px;
     box-shadow: 8px 8px 2px rgba(164, 165, 165, 0.379);
     padding-top: 30px;
     display: flex;
     justify-content: space-around;
+    margin-left: 50px;
+    margin-top: 30px;
 }
 .box2{
   margin: 0 auto;
     padding: 50px;
     /* height: 500px; */
-    width: 1400px;
+    width: 1200px;
     background-color: rgb(210, 239, 255);
     border-radius: 10px;
     box-shadow: 8px 8px 2px rgba(164, 165, 165, 0.379);
     margin-top: 20px;
     margin-bottom: 20px;
+    margin-left: 50px;
 
 }
 .slot-details{
   display: flex;
   gap: 10px;
 }
+
+.sidenav {
+    height: 100vh; /* Full height */
+    width: 200px; /* Set the width of the sidebar */
+    background-color: #333;
+    padding-top: 20px;
+    position: fixed; /* Make it fixed to the left side */
+    top: 0;
+    left: 0;
+}
+
+.sidenav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidenav ul li {
+    padding: 8px;
+    text-align: left;
+}
+
+.sidenav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 8px 16px;
+}
+
+.sidenav ul li a:hover {
+    background-color: #575757;
+}
+
 .input{
     background-color: rgb(253, 253, 253);
     

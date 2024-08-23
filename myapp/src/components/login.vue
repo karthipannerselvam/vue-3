@@ -97,10 +97,17 @@ export default {
 </script>
 <style scoped>
 h1{
+    margin-top: 50px;
     text-align: center;
 }
 .login{
-    padding: 50px;
+    
+    width: 30%;
+    margin: auto ;
+    margin-top: 200px;
+    justify-content: center;
+    align-items: center;
+    
 }
 button{
     margin-right: 10px;
