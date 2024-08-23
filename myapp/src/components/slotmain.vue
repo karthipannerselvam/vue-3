@@ -1,12 +1,7 @@
 <template>
     <div class="container">
         
-        <nav class="sidenav">
-          <ul>
-            <li><a href="#">Student Dashboard</a></li>
-            <li @click="$router.push('/slot-table')">Slot Table</li>
-          </ul>
-        </nav>
+        <Sidebar />
         <div class="main-contant">
         <div class="box1">
             <div class="split1">
@@ -72,13 +67,13 @@
 
 <script>
 import axios from 'axios'
-import Header from './header.vue'
+import Sidebar from './sidenav.vue';
 import VueMultiselect from 'vue-multiselect'
 
 export default {
     name:'SlotMain',
     components:{
-       
+      Sidebar,
         VueMultiselect,
         
     },
@@ -180,7 +175,11 @@ export default {
           this.successMessage = '';
         }, 10000);
       }
-    }
+    },
+    logout(){
+            localStorage.clear();
+            this.$router.push({name:'Login'})
+        }
  },
  mounted(){
   this.fetchBatches();
@@ -229,13 +228,19 @@ export default {
 }
 
 .sidenav {
-    height: 100vh; /* Full height */
-    width: 200px; /* Set the width of the sidebar */
+    width: 200px;
     background-color: #333;
+    color: white;
+    height: 100vh;
     padding-top: 20px;
-    position: fixed; /* Make it fixed to the left side */
-    top: 0;
+    position: fixed;
     left: 0;
+    top: 0;
+    display: flex;
+   flex-direction: column;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    justify-content: space-between;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .sidenav ul {
@@ -245,21 +250,38 @@ export default {
 }
 
 .sidenav ul li {
-    padding: 8px;
+    padding: 15px 20px;
     text-align: left;
+    cursor: pointer;
+}
+
+.sidenav ul li:hover {
+    background-color: #575757;
 }
 
 .sidenav ul li a {
     color: white;
     text-decoration: none;
     display: block;
-    padding: 8px 16px;
 }
 
 .sidenav ul li a:hover {
     background-color: #575757;
 }
+.logout-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  margin-left:20px ;
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 50px; 
+}
 
+.logout-btn:hover {
+  background-color: #5d4242;
+}
 .input{
     background-color: rgb(253, 253, 253);
     

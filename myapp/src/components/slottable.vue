@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <Header/>
+    <div class="container">
+        <Sidebar />
         <div class="box1">
             <table>
                 <thead>
@@ -51,11 +51,11 @@
 </template>
 <script>
 import axios from 'axios';
-import Header from './header.vue';
+import Sidebar from './sidenav.vue';
 export default {
     name:'SlotTable',
     components:{
-        Header,
+        Sidebar
     },
     data() {
     return {
@@ -79,8 +79,15 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+}
+
 .box1{
-    width: 1400px;
+    margin-left: 100px !important;
+   padding: 20px;
+  
+    width: 2000px;
     margin: 0 auto;
 }
 table{
