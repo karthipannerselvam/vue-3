@@ -1,6 +1,7 @@
 const express = require('express'); 
 const mongoose = require('mongoose');
 const Batch = require('./models/Batch')
+const Booking = require('./models/Booking');
 const { User, Slot, Admins,} = require('./models/Slot');
 const app = express();
 const cors = require('cors');
@@ -134,6 +135,36 @@ app.post('/slots', async (req, res) => {
       res.status(500).json({ message: 'Error fetching batches' }); // Handle errors gracefully
     }
   });
+
+  app.post('/book-slot', async (req, res) => {
+    const { eventName, date, venue, studentId, slotId } = req.body;
+    try {
+      const newBooking = new Booking({
+        eventName,
+        date,
+        venue,
+        studentId,
+        slotId
+      });
+      await newBooking.save();
+  
+      // Optionally, update the slot document
+      const slot = await Slot.findById(slotId);
+      if (slot) {
+        slot.SelectedSlots.push(studentId); // Update as necessary
+        await slot.save();
+      }
+  
+      res.status(200).json({ message: 'Slot booked successfully!' });
+    } catch (error) {
+      console.error('Error booking slot:', error);
+      res.status(500).json({ error: 'Error booking slot' });
+    }
+  });
+
+
+
+
   
 
 
