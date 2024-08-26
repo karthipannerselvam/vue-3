@@ -7,8 +7,40 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
+
 app.use(cors()); 
 app.use(bodyParser.json()); 
+
+app.use(session({
+  secret: 'xyz', 
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
+
+
+const jwt = require('jsonwebtoken');
+
+// Middleware to verify JWT and attach userId to req
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -137,23 +169,33 @@ app.post('/slots', async (req, res) => {
   });
 
   app.post('/book-slot', async (req, res) => {
-    const { eventName, date, venue, studentId, slotId } = req.body;
-    try {
-      const newBooking = new Booking({
-        eventName,
-        date,
-        venue,
-        studentId,
-        slotId
-      });
-      await newBooking.save();
+    const { eventName, date, venue, rollno } = req.body;
   
-      // Optionally, update the slot document
-      const slot = await Slot.findById(slotId);
-      if (slot) {
-        slot.SelectedSlots.push(studentId); // Update as necessary
-        await slot.save();
+    try {
+      // Validate that the student exists
+      const student = await User.findOne({ rollno });
+      if (!student) {
+        return res.status(404).json({ error: 'Student not found' });
       }
+  
+      // Find the slot based on event name, date, and venue
+      const slot = await Slot.findOne({ EventName: eventName, Date: date, Venue: venue });
+      if (!slot) {
+        return res.status(404).json({ error: 'Slot not found' });
+      }
+  
+      // Check if the slot is already booked by the student
+      if (slot.SelectedSlots.includes(rollno)) {
+        return res.status(400).json({ error: 'Slot already booked by this student' });
+      }
+  
+      // Update the slot with the student's booking (add rollno to SelectedSlots)
+      slot.SelectedSlots.push(rollno);
+      await slot.save();
+  
+      // Create a new booking record
+      const newBooking = new Booking({ eventName, date, venue, rollno });
+      await newBooking.save();
   
       res.status(200).json({ message: 'Slot booked successfully!' });
     } catch (error) {
@@ -161,6 +203,32 @@ app.post('/slots', async (req, res) => {
       res.status(500).json({ error: 'Error booking slot' });
     }
   });
+  
+  
+  app.get('/get-current-user', async (req, res) => {
+    try {
+      // Check for userId from session or token
+      const userId = req.session.userId || req.userIdFromToken;
+  
+      if (!userId) {
+        return res.status(401).json({ message: 'User not authenticated' });
+      }
+  
+      // Fetch user details
+      const user = await User.findById(userId).select('username email rollno');
+      
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      res.json(user);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      res.status(500).json({ message: 'Error fetching user data' });
+    }
+  });
+  
+  
 
 
 
@@ -175,7 +243,20 @@ app.post('/slots', async (req, res) => {
 
 
 
-
+  function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+  
+    if (token == null) return res.sendStatus(401);
+  
+    jwt.verify(token, 'xyz', (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.userIdFromToken = user.id;
+      next();
+    });
+  }
+  
+  app.use(authenticateToken);
 
 
 

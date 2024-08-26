@@ -60,13 +60,20 @@ export default {
   methods: {
   async bookSlot(slot) {
     try {
-      // Prepare the booking data
+      const userResponse = await axios.get('http://127.0.0.1:3030/get-current-user');
+      const userData = userResponse.data;
+
+      // Ensure the user data has the rollno
+      if (!userData.rollno) {
+        alert('Error: Roll number not found. Please log in again.');
+        return;
+      }
       const bookingData = {
         eventName: slot.EventName,
         date: slot.Date,
         venue: slot.Venue,
-        studentId: this.getCurrentStudentId(), // Ensure this method returns a valid student ID
-        slotId: slot._id
+        rollno: userData.rollno, // Ensure this method returns a valid student ID
+        
       };
 
       // Make the POST request to the server
@@ -85,10 +92,7 @@ export default {
     }
   },
 
-  getCurrentStudentId() {
-    
-    return localStorage.getItem('studentId') || 'student-id-placeholder';
-  }
+  
 }
 
 }
