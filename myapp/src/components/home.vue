@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Header from './header.vue'
+import axios from 'axios';
+import Header from './header.vue';
 
 export default {
   name: 'SlotTable',
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       slots: []
-    }
+    };
   },
   async created() {
     try {
@@ -58,45 +58,54 @@ export default {
     }
   },
   methods: {
-  async bookSlot(slot) {
-    try {
-      const userResponse = await axios.get('http://127.0.0.1:3030/get-current-user');
-      const userData = userResponse.data;
+    async bookSlot(slot) {
+      try {
+        const token = localStorage.getItem('token');
 
-      // Ensure the user data has the rollno
-      if (!userData.rollno) {
-        alert('Error: Roll number not found. Please log in again.');
-        return;
+        // Fetch the current user data with the Authorization header
+        const userResponse = await axios.get('http://127.0.0.1:3030/get-current-user', {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in the headers
+          }
+        });
+        const userData = userResponse.data;
+
+        // Ensure the user data has the rollno
+        if (!userData.rollno) {
+          alert('Error: Roll number not found. Please log in again.');
+          return;
+        }
+
+        const bookingData = {
+          eventName: slot.EventName,
+          date: slot.Date,
+          venue: slot.Venue,
+          rollno: userData.rollno, // Ensure this method returns a valid student ID
+        };
+
+        // Make the POST request to the server with the Authorization header
+        const response = await axios.post('http://127.0.0.1:3030/book-slot', bookingData, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in the headers
+          }
+        });
+
+        // Check if the response status is OK
+        if (response.status === 200) {
+          alert(`You have successfully booked the slot: ${slot.EventName} on ${slot.Date} at ${slot.Venue}`);
+        } else {
+          alert('Failed to book the slot. Please try again later.');
+        }
+      } catch (error) {
+        // Improve error handling and provide more details
+        console.error('Error booking slot:', error.response ? error.response.data : error.message);
+        alert('Error booking the slot. Please try again later.');
       }
-      const bookingData = {
-        eventName: slot.EventName,
-        date: slot.Date,
-        venue: slot.Venue,
-        rollno: userData.rollno, // Ensure this method returns a valid student ID
-        
-      };
-
-      // Make the POST request to the server
-      const response = await axios.post('http://127.0.0.1:3030/book-slot', bookingData);
-
-      // Check if the response status is OK
-      if (response.status === 200) {
-        alert(`You have successfully booked the slot: ${slot.EventName} on ${slot.Date} at ${slot.Venue}`);
-      } else {
-        alert('Failed to book the slot. Please try again later.');
-      }
-    } catch (error) {
-      // Improve error handling and provide more details
-      console.error('Error booking slot:', error.response ? error.response.data : error.message);
-      alert('Error booking the slot. Please try again later.');
-    }
+    },
   },
-
-  
-}
-
-}
+};
 </script>
+
 
 <style scoped>
 .slot-table {
