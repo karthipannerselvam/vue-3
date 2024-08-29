@@ -172,7 +172,7 @@ app.post('/slots', async (req, res) => {
     const { eventName, date, venue, rollno } = req.body;
   
     try {
-      // Validate that the student exists
+     
       const student = await User.findOne({ rollno });
       if (!student) {
         return res.status(404).json({ error: 'Student not found' });
