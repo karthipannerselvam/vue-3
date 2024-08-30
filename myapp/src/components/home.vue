@@ -61,6 +61,12 @@ export default {
     async bookSlot(slot) {
       try {
         const token = localStorage.getItem('token');
+        if (!token) {
+          alert('User not authenticated. Please log in again.');
+          this.$router.push('/log-in'); 
+          return;
+        }
+
 
         // Fetch the current user data with the Authorization header
         const userResponse = await axios.get('http://127.0.0.1:3030/get-current-user', {

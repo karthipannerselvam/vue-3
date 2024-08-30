@@ -41,7 +41,7 @@ export default {
     },
    
     methods: {
-                async login() {
+            async login() {
             this.submitting=true;
             this.clearStatus();
             if(this.invalidEmail || this.invalidPassword){
