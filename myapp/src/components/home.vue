@@ -60,8 +60,9 @@ export default {
   methods: {
     async bookSlot(slot) {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
+        localStorage.setItem('token', response.data.token);
+        console.log('Stored token:', localStorage.getItem('token'));
+        if (!token || tokenIsExpired(token)) {
           alert('User not authenticated. Please log in again.');
           this.$router.push('/log-in'); 
           return;
@@ -95,9 +96,9 @@ export default {
             Authorization: `Bearer ${token}`, // Send token in the headers
           }
         });
-
-        // Check if the response status is OK
-        if (response.status === 200) {
+        console.log('Booking Response:', response);
+       
+        if (response.status === 200 && response.data.success) {
           alert(`You have successfully booked the slot: ${slot.EventName} on ${slot.Date} at ${slot.Venue}`);
         } else {
           alert('Failed to book the slot. Please try again later.');

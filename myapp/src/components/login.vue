@@ -41,45 +41,46 @@ export default {
     },
    
     methods: {
-            async login() {
-            this.submitting=true;
+        clearStatus() {
+            this.success = false;
+            this.error = false;
+        },
+        async login() {
+            console.log(this);
+            this.submitting = true;
             this.clearStatus();
-            if(this.invalidEmail || this.invalidPassword){
-                this.error=true;
+            if (this.invalidEmail || this.invalidPassword) {
+                this.error = true;
                 this.errorMessage = 'Please enter your email and password.';
                 console.log('Error: Empty fields');
                 return;
             }
 
-                try {
-                    const response = await axios.post('http://localhost:3030/api/login', {
-                    email: this.email,
-                    password: this.password
-                    });
-                    this.success = true;
-                    if (response.status === 200 && response.data.success) {
-                    localStorage.setItem("user-info",JSON.stringify(response.data[0]))
-                    this.$router.push({ name: "Home" }); 
-                    } 
-                    if(response.status===401) {
-                        this.error = true;
-                        this.errorMessage = 'Invalid Email or password';
+            try {
+                const response = await axios.post('http://localhost:3030/api/login', {
+                email: this.email,
+                password: this.password
+                });
+                console.log('API Response:', response);
+                if (response.status === 200 && response.data.success) { // Assuming the token is in response.data.token
+                localStorage.setItem('token', response.data.token); // Store the token
+                this.$router.push({ name: 'Home' });
+                } else if (response.status === 401) {
+                this.error = true;
+                this.errorMessage = 'Invalid Email or password';
+                }
+            } catch (error) {
+                this.error = true;
+                this.errorMessage = error.response?.data?.message || 'An error occurred during login.';
+                console.error('Error logging in:', error);
+            }
 
-                    }
-                } catch (error) {
-                    this.error=true;
-                    console.error('Error logging in:', error);
-    
-                }
-                this.submitting = false;
-                },
-                clearStatus(){
-                    this.success=false;
-                    this.error=false;
-                }
-            },
+            this.submitting = false;
+            }
+
+        },
     mounted(){
-        let user=localStorage.getItem('user-info');
+        let user=localStorage.getItem('token');
         if(user){
             this.$router.push({name:"Home"})
         }
