@@ -1,7 +1,8 @@
 <template>
     <nav class="sidenav">
       <ul>
-        <li><a href="#">Student Dashboard</a></li>
+        
+        <li @click="$router.push('/student-dash')">Student Dashboard</li>
         <li @click="$router.push('/slot-main')">Slot Booking</li>
         <li @click="$router.push('/slot-table')">Slot Table</li>
       </ul>

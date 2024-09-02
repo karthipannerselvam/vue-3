@@ -6,6 +6,7 @@ import AdminLogin from './components/adminlogin.vue';
 import AdminSignup from './components/adminsignup.vue';
 import SlotMain from './components/slotmain.vue';
 import SlotTable from './components/slottable.vue'
+import Studentdashboard from './components/studentdashboard.vue';
 
 const routes = [
   {
@@ -45,6 +46,11 @@ const routes = [
     name:"SlotTable",
     component:SlotTable,
     path:'/slot-table',
+  },
+  {
+    name:"StudentDashboard",
+    component:Studentdashboard,
+    path:'/student-dash',
   },
 ];
 

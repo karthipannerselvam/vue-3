@@ -26,7 +26,12 @@
               </ul>
             </td>
             <td>
-              <button @click="bookSlot(slot)">Book</button> <!-- Book button for each slot -->
+              <button 
+              :disabled="slot.booked" 
+              @click="bookSlot(slot)">
+              {{ slot.booked ? 'Booked' : 'Book Slot' }}
+            </button>
+
             </td>
           </tr>
         </tbody>
@@ -58,26 +63,34 @@ export default {
     }
   },
   methods: {
+    async fetchSlots() {
+      try {
+        const response = await axios.get('http://127.0.0.1:3030/slots');
+        this.slots = response.data;
+      } catch (error) {
+        console.error('Error fetching slots:', error);
+      }
+    },
     async bookSlot(slot) {
       try {
-        localStorage.setItem('token', response.data.token);
-        console.log('Stored token:', localStorage.getItem('token'));
-        if (!token || tokenIsExpired(token)) {
+        const token = localStorage.getItem('token');
+        
+        if (!token || this.tokenIsExpired(token)) {
           alert('User not authenticated. Please log in again.');
           this.$router.push('/log-in'); 
           return;
         }
 
 
-        // Fetch the current user data with the Authorization header
+
         const userResponse = await axios.get('http://127.0.0.1:3030/get-current-user', {
           headers: {
-            Authorization: `Bearer ${token}`, // Send token in the headers
+            Authorization: `Bearer ${token}`, 
           }
         });
         const userData = userResponse.data;
 
-        // Ensure the user data has the rollno
+        
         if (!userData.rollno) {
           alert('Error: Roll number not found. Please log in again.');
           return;
@@ -87,28 +100,35 @@ export default {
           eventName: slot.EventName,
           date: slot.Date,
           venue: slot.Venue,
-          rollno: userData.rollno, // Ensure this method returns a valid student ID
+          rollno: userData.rollno, 
         };
 
-        // Make the POST request to the server with the Authorization header
+        
         const response = await axios.post('http://127.0.0.1:3030/book-slot', bookingData, {
           headers: {
-            Authorization: `Bearer ${token}`, // Send token in the headers
+            Authorization: `Bearer ${token}`, 
           }
         });
-        console.log('Booking Response:', response);
+        
        
         if (response.status === 200 && response.data.success) {
           alert(`You have successfully booked the slot: ${slot.EventName} on ${slot.Date} at ${slot.Venue}`);
+          this.slots = this.slots.map(s => s._id === slot._id ? { ...s, booked: true } : s);
         } else {
           alert('Failed to book the slot. Please try again later.');
         }
       } catch (error) {
-        // Improve error handling and provide more details
+        
         console.error('Error booking slot:', error.response ? error.response.data : error.message);
         alert('Error booking the slot. Please try again later.');
       }
     },
+    tokenIsExpired(token){
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiryTime = payload.exp * 1000; // Convert to milliseconds
+      const currentTime = new Date().getTime();
+      return expiryTime < currentTime;
+    }
   },
 };
 </script>

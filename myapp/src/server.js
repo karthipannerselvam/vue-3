@@ -8,6 +8,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const jwt = require('jsonwebtoken');
 
 app.use(cors()); 
 app.use(bodyParser.json()); 
@@ -21,7 +22,7 @@ app.use(session({
 
 
 
-const jwt = require('jsonwebtoken');
+
 
 // Middleware to verify JWT and attach userId to req
 
@@ -93,8 +94,8 @@ app.post('/api/alogin', async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-
-    res.json({ success: true, admin: "super" }); 
+    const token = jwt.sign({ id: admin._id, role: 'admin' }, 'xyz', { expiresIn: '1h' });
+    res.json({ success: true, token }); 
   } catch (error) {
     console.error('Error logging in admin:', error);
     res.status(500).json({ message: 'Server error' }); 
@@ -102,21 +103,23 @@ app.post('/api/alogin', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { rollno, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ rollno });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid rollno or password' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid rollno or password' });
     }
 
+    const token = jwt.sign({ id: user._id }, 'xyz', { expiresIn: '1h' });
 
-    res.json({ success: true, user: "super" }); 
+    // res.json({ success: true, user: "super" }); 
+    res.json({ success: true, token }); 
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).json({ message: 'Server error' }); 
@@ -169,52 +172,41 @@ app.post('/slots', async (req, res) => {
   });
 
   app.post('/book-slot', async (req, res) => {
-    const { eventName, date, venue, rollno } = req.body;
-  
     try {
-     
-      const student = await User.findOne({ rollno });
-      if (!student) {
-        return res.status(404).json({ error: 'Student not found' });
+      const { eventName, date, venue, rollno } = req.body;
+      const userId = req.userIdFromToken;
+      const existingBooking = await Booking.findOne({ eventName, date, venue, rollno: userId });
+      if (existingBooking) {
+        return res.status(400).json({ message: 'Slot already booked' });
       }
+      const newBooking = new Booking({
+        eventName,
+        date,
+        venue,
+        rollno 
+      });
   
-      // Find the slot based on event name, date, and venue
-      const slot = await Slot.findOne({ EventName: eventName, Date: date, Venue: venue });
-      if (!slot) {
-        return res.status(404).json({ error: 'Slot not found' });
-      }
-  
-      // Check if the slot is already booked by the student
-      if (slot.SelectedSlots.includes(rollno)) {
-        return res.status(400).json({ error: 'Slot already booked by this student' });
-      }
-  
-      // Update the slot with the student's booking (add rollno to SelectedSlots)
-      slot.SelectedSlots.push(rollno);
-      await slot.save();
-  
-      // Create a new booking record
-      const newBooking = new Booking({ eventName, date, venue, rollno });
       await newBooking.save();
-  
-      res.status(200).json({ message: 'Slot booked successfully!' });
+      res.json({ success: true });
     } catch (error) {
       console.error('Error booking slot:', error);
-      res.status(500).json({ error: 'Error booking slot' });
+      res.status(500).json({ message: 'Error booking slot' });
     }
   });
   
   
+  app.use(authenticateToken);
+  
   app.get('/get-current-user', async (req, res) => {
     try {
-      // Check for userId from session or token
+     
       const userId = req.session.userId || req.userIdFromToken;
   
       if (!userId) {
-        return res.status(401).json({ message: 'User not authenticated' });
+        return res.status(401).json({ message: 'User not authenticated ' });
       }
   
-      // Fetch user details
+      
       const user = await User.findById(userId).select('username email rollno');
       
       if (!user) {
@@ -225,6 +217,27 @@ app.post('/slots', async (req, res) => {
     } catch (error) {
       console.error('Error fetching user data:', error);
       res.status(500).json({ message: 'Error fetching user data' });
+    }
+  });
+  
+  app.get('/check-slot-status', authenticateToken, async (req, res) => {
+    try {
+      const userId = req.userIdFromToken;
+      if (!userId) return res.status(401).json({ message: 'User not authenticated' });
+  
+      const { eventName, date, venue } = req.query;
+  
+      
+      const booking = await Booking.findOne({ eventName, date, venue, rollno: userId });
+  
+      if (booking) {
+        res.json({ booked: true });
+      } else {
+        res.json({ booked: false });
+      }
+    } catch (error) {
+      console.error('Error checking slot status:', error);
+      res.status(500).json({ message: 'Error checking slot status' });
     }
   });
   
@@ -244,19 +257,59 @@ app.post('/slots', async (req, res) => {
 
 
   function authenticateToken(req, res, next) {
+    
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-  
+    console.log('Received token:', token);
     if (token == null) return res.sendStatus(401);
   
     jwt.verify(token, 'xyz', (err, user) => {
-      if (err) return res.sendStatus(403);
+      if (err) {
+        console.error('Token verification failed:', err);
+        return res.sendStatus(403);
+      }
+      
       req.userIdFromToken = user.id;
       next();
     });
   }
   
-  app.use(authenticateToken);
+  function verifyAdminToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    console.log('Received token:', token);
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, 'xyz', (err, admin) => {
+        if (err) return res.sendStatus(403);
+        
+        
+        if (admin.role !== 'admin') {
+            return res.status(403).json({ message: 'Access denied. Admins only.' });
+        }
+        
+        req.adminId = admin.id;
+        next();
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -280,10 +333,10 @@ app.listen(3030, () => console.log('Server listening on port 3030'));
 
 app.get('/batches', async (req, res) => {
   try {
-    const batches = await Batch.find(); // Assuming Batch is your model
+    const batches = await Batch.find(); 
     res.json(batches);
   } catch (error) {
     console.error('Error fetching batches:', error);
-    res.status(500).json({ message: 'Error fetching batches' }); // Handle errors gracefully
+    res.status(500).json({ message: 'Error fetching batches' });
   }
 });
