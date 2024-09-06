@@ -74,6 +74,7 @@ export default {
     async bookSlot(slot) {
       try {
         const token = localStorage.getItem('token');
+       
         
         if (!token || this.tokenIsExpired(token)) {
           alert('User not authenticated. Please log in again.');
@@ -125,7 +126,7 @@ export default {
     },
     tokenIsExpired(token){
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const expiryTime = payload.exp * 1000; // Convert to milliseconds
+      const expiryTime = payload.exp * 1000; 
       const currentTime = new Date().getTime();
       return expiryTime < currentTime;
     }

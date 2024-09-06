@@ -51,13 +51,21 @@ export default {
                     email: this.email,
                     password: this.password
                     });
-                    this.success = true;
+                    
+                    
+                   
                     if (response.status === 200 && response.data.success) {
-                    localStorage.setItem("user-info",JSON.stringify(response.data[0]))
-                    this.$router.push({ name: "SlotMain" }); 
+                    const token = response.data.adminToken;
+                    
+                        if (token) {
+                            localStorage.setItem('adminToken', token);
+                            this.$router.push({ name: "SlotMain" });
+                        } else {
+                            console.warn('Token is undefined');
+                        } 
                     } else {
                  
-                    console.warn("Poda");
+                        console.warn("Login failed");
                     }
                 } catch (error) {
                     this.error=true;

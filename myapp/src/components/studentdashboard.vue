@@ -54,8 +54,9 @@
     methods: {
     async fetchStudentData() {
         try {
-        const token = localStorage.getItem('adminToken');
-        if (!token || this.tokenIsExpired(adminToken)) {
+        const adminToken = localStorage.getItem('adminToken');
+        console.log("Token:", adminToken);
+        if (!adminToken || this.tokenIsExpired(adminToken)) {
             alert('Admin not authenticated. Please log in again.');
             // this.$router.push('/alog-in');
             return;
@@ -73,8 +74,8 @@
         alert('Failed to retrieve student information. Please try again.');
         }
     },
-    tokenIsExpired(token){
-        const payload = JSON.parse(atob(token.split('.')[1]));
+    tokenIsExpired(adminToken){
+        const payload = JSON.parse(atob(adminToken.split('.')[1]));
         const expiryTime = payload.exp * 1000; // Convert to milliseconds
         const currentTime = new Date().getTime();
         return expiryTime < currentTime;

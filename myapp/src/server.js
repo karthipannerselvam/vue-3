@@ -94,8 +94,9 @@ app.post('/api/alogin', async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ id: admin._id, role: 'admin' }, 'xyz', { expiresIn: '1h' });
-    res.json({ success: true, token }); 
+    const adminToken = jwt.sign({ id: admin._id, role: 'admin' }, 'xyz', { expiresIn: '1h' });
+   
+    res.json({ success: true, adminToken }); 
   } catch (error) {
     console.error('Error logging in admin:', error);
     res.status(500).json({ message: 'Server error' }); 
@@ -118,7 +119,7 @@ app.post('/api/login', async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, 'xyz', { expiresIn: '1h' });
 
-    // res.json({ success: true, user: "super" }); 
+ 
     res.json({ success: true, token }); 
   } catch (error) {
     console.error('Error logging in user:', error);
@@ -171,7 +172,7 @@ app.post('/slots', async (req, res) => {
     }
   });
 
-  app.post('/book-slot', async (req, res) => {
+  app.post('/book-slot',verifyAdminToken, async (req, res) => {
     try {
       const { eventName, date, venue, rollno } = req.body;
       const userId = req.userIdFromToken;
@@ -240,7 +241,37 @@ app.post('/slots', async (req, res) => {
       res.status(500).json({ message: 'Error checking slot status' });
     }
   });
+  app.get('/student/:rollno', verifyAdminToken, async (req, res) => {
+    try {
+      const { rollno } = req.params;
+      
+    
+      const student = await User.findOne({ rollno });
+      
+      if (!student) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
   
+
+      const bookedSlots = await Booking.find({ rollno });
+  
+      res.status(200).json({ student, bookedSlots });
+    } catch (error) {
+      console.error('Error fetching student data:', error);
+      res.status(500).json({ message: 'Failed to retrieve student data' });
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
   
 
 
@@ -276,12 +307,15 @@ app.post('/slots', async (req, res) => {
   
   function verifyAdminToken(req, res, next) {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    console.log('Received token:', token);
-    if (!token) return res.sendStatus(401);
+    const adminToken = authHeader && authHeader.split(' ')[1];
+    console.log('Received token:', adminToken);
+    if (!adminToken) return res.sendStatus(401);
 
-    jwt.verify(token, 'xyz', (err, admin) => {
-        if (err) return res.sendStatus(403);
+    jwt.verify(adminToken, 'xyz', (err, admin) => {
+      if (err) {
+        console.error('Token verification failed:', err);
+        return res.sendStatus(403);
+      }
         
         
         if (admin.role !== 'admin') {
