@@ -8,7 +8,7 @@
   
         <div v-if="student">
           <h3>Personal Information</h3>
-          <p><strong>Name:</strong> {{ student.name }}</p>
+          <p><strong>Name:</strong> {{ student.username }}</p>
           <p><strong>Email:</strong> {{ student.email }}</p>
           <p><strong>Roll Number:</strong> {{ student.rollno }}</p>
   
@@ -19,13 +19,25 @@
                 <th>Event Name</th>
                 <th>Date</th>
                 <th>Venue</th>
+                <th>Scale (Out of 5)</th>
+                <th>Remarks</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="slot in bookedSlots" :key="slot._id">
                 <td>{{ slot.eventName }}</td>
-                <td>{{ slot.date }}</td>
+                <td>{{ formatDate(slot.date) }}</td>
                 <td>{{ slot.venue }}</td>
+                <td>
+                  <input type="number" v-model="slot.scale" min="1" max="5" placeholder="1-5" />
+                </td>
+                <td>
+                  <input type="text" v-model="slot.remarks" placeholder="Enter remarks" />
+                </td>
+                <td>
+                  <button @click="submitSlotData(slot)">Submit</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -74,12 +86,44 @@
         alert('Failed to retrieve student information. Please try again.');
         }
     },
+    async submitSlotData(slot) {
+      const adminToken = localStorage.getItem('adminToken');
+            try {
+                const payload = {
+                    slotId: slot._id,
+                    scale: slot.scale,
+                    remarks: slot.remarks,
+                    rollno: this.student.rollno, 
+                    date: slot.date,
+                    venue: slot.venue,
+                };
+
+                const response = await axios.post('http://127.0.0.1:3030/api/submitSlotData', payload, {
+                    headers: {
+                    Authorization: `Bearer ${adminToken}`, // Send the token in the Authorization header
+                    },
+                });
+                if (response.data.message === 'Slot feedback saved successfully') {
+                    alert('Slot feedback saved!');
+                } else {
+                    alert('Failed to save slot feedback.');
+                }
+            } catch (error) {
+                console.error('Error submitting slot data:', error);
+                alert('Error submitting slot data. Please try again.');
+            }
+        },
     tokenIsExpired(adminToken){
         const payload = JSON.parse(atob(adminToken.split('.')[1]));
         const expiryTime = payload.exp * 1000; // Convert to milliseconds
         const currentTime = new Date().getTime();
         return expiryTime < currentTime;
-    }
+    },
+    formatDate(date) {
+        return new Date(date).toLocaleDateString(); 
+    },
+    
+  
     }
 
   };

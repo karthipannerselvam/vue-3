@@ -1,7 +1,8 @@
 const express = require('express'); 
 const mongoose = require('mongoose');
 const Batch = require('./models/Batch')
-const Booking = require('./models/Booking');
+const {Booking, SlotFeedback} = require('./models/Booking');
+
 const { User, Slot, Admins,} = require('./models/Slot');
 const app = express();
 const cors = require('cors');
@@ -172,7 +173,7 @@ app.post('/slots', async (req, res) => {
     }
   });
 
-  app.post('/book-slot',verifyAdminToken, async (req, res) => {
+  app.post('/book-slot', async (req, res) => {
     try {
       const { eventName, date, venue, rollno } = req.body;
       const userId = req.userIdFromToken;
@@ -246,7 +247,7 @@ app.post('/slots', async (req, res) => {
       const { rollno } = req.params;
       
     
-      const student = await User.findOne({ rollno });
+      const student = await User.findOne({ rollno }).select('rollno username email');
       
       if (!student) {
         return res.status(404).json({ message: 'Student not found' });
@@ -261,6 +262,43 @@ app.post('/slots', async (req, res) => {
       res.status(500).json({ message: 'Failed to retrieve student data' });
     }
   });
+
+  app.post('/api/submitSlotData', async (req, res) => {
+    try {
+        const { slotId, scale, remarks, rollno, date, venue } = req.body;
+
+        // Validate required fields
+        if (!slotId || !scale || !remarks || !rollno || !date || !venue) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Save the feedback to the database
+        const feedback = new SlotFeedback({
+            slotId,
+            scale,
+            remarks,
+            rollno,
+            date,
+            venue,
+        });
+
+        await feedback.save();
+        res.status(200).json({ message: 'Slot feedback saved successfully' });
+    } catch (error) {
+        console.error('Error saving slot feedback:', error);
+        res.status(500).json({ message: 'Failed to save feedback' });
+    }
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -291,7 +329,7 @@ app.post('/slots', async (req, res) => {
     
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-    console.log('Received token:', token);
+    
     if (token == null) return res.sendStatus(401);
   
     jwt.verify(token, 'xyz', (err, user) => {
@@ -308,7 +346,7 @@ app.post('/slots', async (req, res) => {
   function verifyAdminToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const adminToken = authHeader && authHeader.split(' ')[1];
-    console.log('Received token:', adminToken);
+    
     if (!adminToken) return res.sendStatus(401);
 
     jwt.verify(adminToken, 'xyz', (err, admin) => {
