@@ -1,7 +1,7 @@
 const express = require('express'); 
 const mongoose = require('mongoose');
 const Batch = require('./models/Batch')
-const {Booking, SlotFeedback} = require('./models/Booking');
+const {Booking,SlotFeedback} = require('./models/Booking');
 
 const { User, Slot, Admins,} = require('./models/Slot');
 const app = express();

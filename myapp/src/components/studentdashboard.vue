@@ -105,6 +105,7 @@
                 });
                 if (response.data.message === 'Slot feedback saved successfully') {
                     alert('Slot feedback saved!');
+                    this.bookedSlots = this.bookedSlots.filter(slotItem => slotItem._id !== slot._id);
                 } else {
                     alert('Failed to save slot feedback.');
                 }
@@ -120,7 +121,12 @@
         return expiryTime < currentTime;
     },
     formatDate(date) {
-        return new Date(date).toLocaleDateString(); 
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, '0'); 
+      const month = String(d.getMonth() + 1).padStart(2, '0'); 
+      const year = d.getFullYear(); // Get full year
+
+      return `${day}/${month}/${year}`;
     },
     
   

@@ -16,7 +16,7 @@
         <tbody>
           <tr v-for="slot in slots" :key="slot._id">
             <td>{{ slot.EventName }}</td>
-            <td>{{ slot.Date }}</td>
+            <td>{{ formatDate(slot.Date) }}</td>
             <td>{{ slot.Venue }}</td>
             <td>
               <ul>
@@ -129,7 +129,15 @@ export default {
       const expiryTime = payload.exp * 1000; 
       const currentTime = new Date().getTime();
       return expiryTime < currentTime;
-    }
+    },
+    formatDate(date) {
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, '0'); 
+      const month = String(d.getMonth() + 1).padStart(2, '0'); 
+      const year = d.getFullYear(); // Get full year
+
+      return `${day}/${month}/${year}`;
+    },
   },
 };
 </script>
