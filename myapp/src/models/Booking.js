@@ -5,7 +5,7 @@ const BookingSchema = new mongoose.Schema({
   date: { type: String, required: true },
   venue: { type: String, required: true },
   rollno: { type: String, required: true },
-  
+  booked: { type: Boolean, default: false },
   
 });
 

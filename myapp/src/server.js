@@ -177,19 +177,26 @@ app.post('/slots', async (req, res) => {
     try {
       const { eventName, date, venue, rollno } = req.body;
       const userId = req.userIdFromToken;
-      const existingBooking = await Booking.findOne({ eventName, date, venue, rollno: userId });
+      const existingBooking = await Booking.findOne({ eventName, date, venue, rollno: userId ,booked: true});
       if (existingBooking) {
-        return res.status(400).json({ message: 'Slot already booked' });
+        if (existingBooking.booked) {
+          return res.status(400).json({ message: 'Slot already booked' });
+        }
+        
+        existingBooking.booked = true;
+        await existingBooking.save();
       }
+      else{
       const newBooking = new Booking({
         eventName,
         date,
         venue,
-        rollno 
+        rollno ,
+        booked: true,
       });
-  
       await newBooking.save();
-      res.json({ success: true });
+    }
+    res.json({ success: true });
     } catch (error) {
       console.error('Error booking slot:', error);
       res.status(500).json({ message: 'Error booking slot' });
@@ -267,12 +274,12 @@ app.post('/slots', async (req, res) => {
     try {
         const { slotId, scale, remarks, rollno, date, venue } = req.body;
 
-        // Validate required fields
+        
         if (!slotId || !scale || !remarks || !rollno || !date || !venue) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
-        // Save the feedback to the database
+        
         const feedback = new SlotFeedback({
             slotId,
             scale,
