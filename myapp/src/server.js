@@ -155,8 +155,13 @@ app.post('/slots', async (req, res) => {
 
   app.get('/slots', async (req, res) => {
     try {
-      const slots = await Slot.find()
-      res.json(slots); 
+      const rollno = req.query.rollno;
+      
+     
+      const bookedSlots = await Booking.find({ rollno }).select('slotId');
+       const bookedSlotIds = bookedSlots.map(booking => booking.slotId);
+       const availableSlots = await Slot.find({ slotId: { $nin: bookedSlotIds } }); 
+      res.json(availableSlots); 
     } catch (error) {
       console.error('Error fetching slots:', error);
       res.status(500).json({ message: 'Error fetching slots' }); // Handle errors gracefully
@@ -175,7 +180,7 @@ app.post('/slots', async (req, res) => {
 
   app.post('/book-slot', async (req, res) => {
     try {
-      const { eventName, date, venue, rollno } = req.body;
+      const { eventName, date, venue, rollno,slotId } = req.body;
       const userId = req.userIdFromToken;
       const existingBooking = await Booking.findOne({ eventName, date, venue, rollno: userId ,booked: true});
       if (existingBooking) {
@@ -193,6 +198,7 @@ app.post('/slots', async (req, res) => {
         venue,
         rollno ,
         booked: true,
+        slotId
       });
       await newBooking.save();
     }
@@ -297,6 +303,23 @@ app.post('/slots', async (req, res) => {
     }
 });
 
+app.get('/booked-slots', async (req, res) => {
+  const { rollno } = req.query;
+  console.log(rollno);
+  try {
+    if (!rollno) {
+      return res.status(400).json({ error: 'Roll number is required' });
+    }
+
+    const bookedSlots = await Booking.find({ rollno, booked: true })
+      .sort({ createdAt: -1 }) // Sort by latest booking
+      .limit(5); // Limit to 5 bookings
+
+    res.status(200).json(bookedSlots);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve booked slots' });
+  }
+});
 
 
 

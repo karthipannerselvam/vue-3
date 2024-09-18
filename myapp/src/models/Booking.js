@@ -6,6 +6,10 @@ const BookingSchema = new mongoose.Schema({
   venue: { type: String, required: true },
   rollno: { type: String, required: true },
   booked: { type: Boolean, default: false },
+  slotId: {
+        type:String,
+        required: true
+    },
   
 });
 

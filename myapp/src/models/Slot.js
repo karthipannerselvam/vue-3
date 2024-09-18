@@ -33,7 +33,16 @@ const studentSchema = new mongoose.Schema({
   SelectedSlots:{
     type:[String],
     default:[]
-  }
+  },
+  slotId: {
+      type: String,
+      required: true,
+      unique: true,
+      default: () => {
+          const timestamp = Date.now().toString(36);
+          return `SLOT-${timestamp}`;
+      }
+  },
   
 });
 
