@@ -180,7 +180,7 @@ app.post('/slots', async (req, res) => {
 
   app.post('/book-slot', async (req, res) => {
     try {
-      const { eventName, date, venue, rollno,slotId } = req.body;
+      const { eventName, date, venue, rollno,slot,slotId } = req.body;
       const userId = req.userIdFromToken;
       const existingBooking = await Booking.findOne({ eventName, date, venue, rollno: userId ,booked: true});
       if (existingBooking) {
@@ -198,6 +198,7 @@ app.post('/slots', async (req, res) => {
         venue,
         rollno ,
         booked: true,
+        slot,
         slotId
       });
       await newBooking.save();
@@ -305,7 +306,7 @@ app.post('/slots', async (req, res) => {
 
 app.get('/booked-slots', async (req, res) => {
   const { rollno } = req.query;
-  console.log(rollno);
+
   try {
     if (!rollno) {
       return res.status(400).json({ error: 'Roll number is required' });

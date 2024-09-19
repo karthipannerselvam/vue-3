@@ -10,7 +10,7 @@
             <th>Date</th>
             <th>Venue</th>
             <th>Slots</th>
-            <th>Action</th> <!-- New column for the Book button -->
+            <th>Action</th> 
           </tr>
         </thead>
         <tbody>
@@ -18,17 +18,24 @@
             <td>{{ slot.EventName }}</td>
             <td>{{ formatDate(slot.Date) }}</td>
             <td>
-              <tr v-for="venue in slot.Venues" :key="venue.venueName">
-                  <td >{{ venue.venueName }}</td>
-              </tr>
+              
+              <select  class="styled-select" v-model="selectedVenue[slot._id]">
+ 
+                <option v-for="venue in slot.Venues" :key="venue.venueName" :value="venue.venueName">
+                  {{ venue.venueName }}
+                </option>
+                
+              </select>
             </td>
             <td>
-              <ul>
-                <li v-for="(selectedSlot, index) in slot.SelectedSlots" :key="index">
+              <select class="styled-select" v-model="selectedSlot[slot._id]">
+                <option value="" disabled>Select Slot</option> 
+                <option v-for="(selectedSlot, index) in slot.SelectedSlots" :key="index" :value="selectedSlot">
                   {{ selectedSlot }}
-                </li>
-              </ul>
+                </option>
+              </select>
             </td>
+
             <td>
               <button 
               :disabled="slot.booked" 
@@ -73,7 +80,9 @@ export default {
   data() {
     return {
       slots: [],
-      bookedSlots: []
+      bookedSlots: [],
+      selectedVenue: {},
+      selectedSlot: {}
     };
   },
   async created() {
@@ -102,7 +111,7 @@ export default {
             }
         });
       
-        console.log(response.data);
+        
         this.slots = response.data;
 
         const bookedResponse = await axios.get('http://127.0.0.1:3030/booked-slots', {
@@ -155,12 +164,15 @@ export default {
           alert('Error: Roll number not found. Please log in again.');
           return;
         }
+        const venueName = this.selectedVenue[slot._id];
+        const selectedSlot = this.selectedSlot[slot._id];
 
         const bookingData = {
           eventName: slot.EventName,
           date: slot.Date,
-          venue: slot.Venue,
+          venue: venueName,
           rollno: userData.rollno, 
+          slot: selectedSlot,
           slotId:slot.slotId
         };
 
@@ -214,27 +226,46 @@ export default {
   border-radius: 10px;
   box-shadow: 8px 8px 2px rgba(164, 165, 165, 0.379);
   margin-bottom: 50px;
+  transition: box-shadow 0.3s;
+}
+
+.slot-table:hover {
+  box-shadow: 12px 12px 15px rgba(164, 165, 165, 0.5);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 30px;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
+  text-align: left;
+  transition: background-color 0.3s;
 }
 
 th {
   background-color: #f2f2f2;
+  color: #555;
+}
+
+tr:hover {
+  background-color: rgba(0, 123, 255, 0.1);
 }
 
 button {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
-  padding: 5px 10px;
+  padding: 8px 12px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -242,11 +273,44 @@ button {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.styled-select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+.styled-select:focus {
+  border-color: #4CAF50;
+  outline: none;
 }
 
 @media (max-width: 768px) {
   .slot-table {
-    width: 100%;
+    width: 95%;
+  }
+
+  th, td {
+    padding: 6px;
+  }
+
+  button {
+    font-size: 12px;
   }
 }
 </style>
+

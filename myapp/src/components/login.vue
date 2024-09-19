@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="login-container">
+      <!-- <div class="head">
+        
+      </div> -->
       <h1>Login</h1>
-      <div class="head">
-        <button class="admin" @click="$router.push('/alog-in')">Admin</button>
-      </div>
       <div class="login">
         <input type="text" v-model="rollno" 
           :class="{'has-error':submitting && invalidRollno}"
@@ -19,6 +19,7 @@
   
         <button v-on:click="login">Login</button>
         <button class="signin" @click="$router.push('/sign-up')">Sign Up</button>
+        <button class="admin" @click="$router.push('/alog-in')">Admin</button>
       </div>
     </div>
   </template>
@@ -103,39 +104,40 @@
   </script>
   
 <style scoped>
+.login-container {
+  width: 30%;
+  margin: auto;
+  margin-top: 150px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding-bottom: 50px;
+}
 h1{
     margin-top: 50px;
     text-align: center;
 }
-.login{
-    
-    width: 30%;
-    margin: auto ;
-    margin-top: 200px;
-    justify-content: center;
-    align-items: center;
-    
-}
+
 button{
     margin-right: 10px;
 }
-.head {
-  display: flex; 
-  justify-content: center; 
-  margin-top: -60px;
-  margin-right: 20px;
-}
+
 .signin{
     background: rgb(169, 201, 228);
     border: rgb(169, 201, 228);
+    cursor: pointer;
 }
 .admin {
-  margin-left: auto; 
+  margin-left: 112px; 
+
 }
 [class*='-message']{
     font-weight: 500;
 }
 .error-message{
     color: #d33c40;
+    margin-bottom: 15px;
 }
 </style>

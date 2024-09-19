@@ -1,9 +1,7 @@
 <template>
-    <div>
+    <div class="login-container">
         <h1> Admin Login</h1>
-        <div class="head">
-        <button class="admin" @click="$router.push('/log-in')">User</button>
-        </div>
+       
         <div class="login">
   
             <input type="text" v-model="email" 
@@ -19,6 +17,7 @@
             <p v-if="submitting && error" class="error-message">Please fill out all the required fields!</p>
             <button v-on:click="login">Login</button>
             <button class="signin" @click="$router.push('/asign-up')">Sign Up</button>
+            <button class="admin" @click="$router.push('/log-in')">User</button>
         </div>
     </div>
 </template>
@@ -98,14 +97,19 @@ export default {
 </script>
 <style scoped>
 h1{
+    margin-top: 50px;
     text-align: center;
 }
-.login{
-    width: 30%;
-    margin: auto ;
-    margin-top: 200px;
-    justify-content: center;
-    align-items: center;
+.login-container {
+  width: 30%;
+  margin: auto;
+  margin-top: 150px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding-bottom: 50px;
 }
 button{
     margin-right: 10px;
@@ -119,9 +123,11 @@ button{
 .signin{
     background: rgb(169, 201, 228);
     border: rgb(169, 201, 228);
+    cursor: pointer;
 }
 .admin {
-  margin-left: auto; 
+    margin-left: 112px; 
+
 }
 [class*='-message']{
     font-weight: 500;
