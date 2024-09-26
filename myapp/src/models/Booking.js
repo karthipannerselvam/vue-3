@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { eventNames } = require('./Batch');
 
 const BookingSchema = new mongoose.Schema({
   eventName: { type: String, required: true },
@@ -19,6 +20,10 @@ const SlotFeedbackSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'Slot',
+  },
+  eventName:{
+    type:String,
+    required:true,
   },
   scale: {
       type: Number,

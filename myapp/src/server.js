@@ -268,9 +268,11 @@ app.post('/slots', async (req, res) => {
       }
   
 
-      const bookedSlots = await Booking.find({ rollno });
+      const bookedSlots = await Booking.find({ rollno }).lean();
+      const slotsWithFeedback = await SlotFeedback.find({ rollno, remarks: { $ne: null } }).distinct('slotId');
+      const slotsToReturn = bookedSlots.filter(slot => !slotsWithFeedback.includes(slot._id.toString()));
   
-      res.status(200).json({ student, bookedSlots });
+      res.status(200).json({ student, slotsToReturn });
     } catch (error) {
       console.error('Error fetching student data:', error);
       res.status(500).json({ message: 'Failed to retrieve student data' });
@@ -279,7 +281,7 @@ app.post('/slots', async (req, res) => {
 
   app.post('/api/submitSlotData', async (req, res) => {
     try {
-        const { slotId, scale, remarks, rollno, date, venue } = req.body;
+        const { slotId,eventName, scale, remarks, rollno, date, venue } = req.body;
 
         
         if (!slotId || !scale || !remarks || !rollno || !date || !venue) {
@@ -289,6 +291,7 @@ app.post('/slots', async (req, res) => {
         
         const feedback = new SlotFeedback({
             slotId,
+            eventName,
             scale,
             remarks,
             rollno,
@@ -322,6 +325,15 @@ app.get('/booked-slots', async (req, res) => {
   }
 });
 
+app.get('/slot-feedback',async(req,res)=>{
+  try{
+    const feedback= await SlotFeedback.find();
+    res.json(feedback);
+  }
+  catch(err){
+    res.status(500).json({message:'Error fetching feedback'})
+  }
+})
 
 
 

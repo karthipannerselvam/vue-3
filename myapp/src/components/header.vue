@@ -24,6 +24,7 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 50px;
+    
 }
 button {
   margin-right: 10px;

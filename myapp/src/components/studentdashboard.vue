@@ -13,7 +13,7 @@
           <p><strong>Roll Number:</strong> {{ student.rollno }}</p>
   
           <h3>Booked Slots</h3>
-          <table v-if="bookedSlots.length">
+          <table v-if="bookedSlots && bookedSlots.length">
             <thead>
               <tr>
                 <th>Event Name</th>
@@ -50,6 +50,7 @@
   <script>
   import axios from 'axios';
   import Sidebar from './sidenav.vue';
+import { eventNames } from '@/models/Batch';
   
   export default {
     name: 'StudentDashboard',
@@ -67,7 +68,7 @@
     async fetchStudentData() {
         try {
         const adminToken = localStorage.getItem('adminToken');
-        console.log("Token:", adminToken);
+        
         if (!adminToken || this.tokenIsExpired(adminToken)) {
             alert('Admin not authenticated. Please log in again.');
             // this.$router.push('/alog-in');
@@ -91,6 +92,7 @@
             try {
                 const payload = {
                     slotId: slot._id,
+                    eventName:slot.eventName,
                     scale: slot.scale,
                     remarks: slot.remarks,
                     rollno: this.student.rollno, 
