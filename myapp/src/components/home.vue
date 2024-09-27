@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <Header />
     <div class="slot-table">
       <h2>Available Slots</h2>
@@ -327,10 +327,14 @@ export default {
 
 
 <style scoped>
+.main{
+  background-color: black;
+}
 body, html {
   margin: 0;
   padding: 0;
   height: 100%; 
+  background-color: #333;
   
 }
 .container {
@@ -343,20 +347,52 @@ body, html {
   margin: 0 auto;
   padding: 20px;
   width: 80%;
-  background-color: rgb(210, 239, 255);
+  background-color: rgba(86, 86, 86, 0.495);
   border-radius: 10px;
-  box-shadow: 8px 8px 2px rgba(164, 165, 165, 0.379);
+
   margin-bottom: 50px;
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, transform 0.3s; /* Added transform transition */
+
+
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  
+
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.5px;
+
+  border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
+
 }
 
-.slot-table:hover {
-  box-shadow: 12px 12px 15px rgba(164, 165, 165, 0.5);
+
+.slot-table table {
+  width: 100%;
+  border-collapse: collapse;
 }
+
+.slot-table th, .slot-table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: left;
+}
+
+.slot-table th {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #d5d5d5; 
+}
+
+.slot-table td {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+
 
 h2 {
   text-align: center;
-  color: #333;
+  color: #f2f2f2;
   margin-bottom: 20px;
 }
 
@@ -364,14 +400,13 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 30px;
+  border-radius: 5px;
+}
+thead,tbody{
+ border-radius: 5px;
 }
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
-  transition: background-color 0.3s;
-}
+
 
 th {
   background-color: #f2f2f2;
@@ -426,6 +461,7 @@ button:disabled {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 500px;
+  background-color: black;
   
 }
 
@@ -433,6 +469,7 @@ canvas {
   margin: 20px auto;
   max-width: 600px;
   height: 400px;
+  
 }
 
 

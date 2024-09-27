@@ -20,14 +20,19 @@ export default {
 </script>
 <style scoped>
 .head{
-    margin-top: 20px;
+    
     display: flex;
     justify-content: space-between;
     margin-bottom: 50px;
+    background-color: black;
     
 }
 button {
+  margin-top: 20px;
   margin-right: 10px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.248);
+  border-image: linear-gradient(45deg, #ff8a80, #8a80ff) 1;
 }
 
 
