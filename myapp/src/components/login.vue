@@ -1,10 +1,9 @@
 <template>
+  <div class="main">
     <div class="login-container">
-      <!-- <div class="head">
-        
-      </div> -->
-      <h1>Login</h1>
+      
       <div class="login">
+        <h1>Login</h1>
         <input type="text" v-model="rollno" 
           :class="{'has-error':submitting && invalidRollno}"
           @focus="clearStatus"
@@ -22,6 +21,7 @@
         <button class="admin" @click="$router.push('/alog-in')">Admin</button>
       </div>
     </div>
+  </div>
   </template>
   
 
@@ -103,42 +103,108 @@
   }
   </script>
   
-<style scoped>
-
-.login-container {
-  width: 30%;
-  margin: auto;
-  margin-top: 150px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  padding-bottom: 50px;
-}
-h1{
+  <style scoped>
+  html{
+    background-color: black;
+  }
+  .main{
+    background-color: black;
+    display: flex;
+    height: 1000px;
+    flex-direction: column;
+  }
+  .login-container {
+    width: 30%;
+    margin: auto;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-bottom: 50px;
+    transition: all 0.3s ease;
+  }
+  .login{
+    color: #f2f2f2;
+    margin-top: 150px;
+    background-color: black;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-image: linear-gradient(45deg, #ff8a80, #8a80ff) 1;
+  }
+  input{
+    color: white;
+  }
+  
+  h1 {
+    color: #f2f2f2;
     margin-top: 50px;
     text-align: center;
-}
-
-button{
+  }
+  
+  button {
     margin-right: 10px;
-}
-
-.signin{
+  }
+  
+  .signin {
     background: rgb(169, 201, 228);
     border: rgb(169, 201, 228);
     cursor: pointer;
-}
-.admin {
-  margin-left: 112px; 
-
-}
-[class*='-message']{
+  }
+  
+  .admin {
+    margin-left: 100px;
+  }
+  
+  [class*='-message'] {
     font-weight: 500;
-}
-.error-message{
+  }
+  
+  .error-message {
     color: #d33c40;
     margin-bottom: 15px;
-}
-</style>
+  }
+
+  @media screen and (max-width: 1024px) {
+    .login-container {
+      width: 50%;
+      margin-top: 100px;
+    }
+  }
+  
+  /* For mobile devices (landscape) */
+  @media screen and (max-width: 768px) {
+    .login-container {
+      width: 70%;
+      margin-top: 80px;
+      padding: 15px;
+    }
+  
+    .admin {
+      margin-left: 60px; /* Adjust for better button alignment */
+    }
+  }
+  
+  /* For mobile devices (portrait) */
+  @media screen and (max-width: 480px) {
+    .login-container {
+      width: 90%;
+      margin-top: 60px;
+      padding: 10px;
+    }
+  
+    h1 {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+  
+    button {
+      margin-right: 5px;
+      padding: 10px 15px;
+    }
+  
+    .admin {
+      margin-left: 40px; /* Adjust for smaller screens */
+    }
+  }
+  
+  </style>
+  

@@ -1,8 +1,9 @@
 <template>
+    <div class="main">
     <div class="login-container">
-        <h1> Admin Login</h1>
-       
+        
         <div class="login">
+            <h1> Admin Login</h1>
   
             <input type="text" v-model="email" 
             :class="{'has-error':submitting&& invalidEmail}"
@@ -20,6 +21,7 @@
             <button class="admin" @click="$router.push('/log-in')">User</button>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -96,21 +98,37 @@ export default {
 }
 </script>
 <style scoped>
+html{
+    background-color: black;
+  }
+  .main{
+    background-color: black;
+    display: flex;
+    height: 1000px;
+    flex-direction: column;
+  }
 h1{
+    color: white;
     margin-top: 50px;
     text-align: center;
 }
 .login-container {
-  width: 30%;
-  margin: auto;
-  margin-top: 150px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  padding-bottom: 50px;
+    width: 30%;
+    margin: auto;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-bottom: 50px;
+    transition: all 0.3s ease;
 }
+.login{
+    color: #f2f2f2;
+    margin-top: 150px;
+    background-color: black;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-image: linear-gradient(45deg, #ff8a80, #8a80ff) 1;
+  }
 button{
     margin-right: 10px;
 }
@@ -125,6 +143,9 @@ button{
     border: rgb(169, 201, 228);
     cursor: pointer;
 }
+input{
+    color: white;
+}
 .admin {
     margin-left: 112px; 
 
@@ -135,4 +156,47 @@ button{
 .error-message{
     color: #d33c40;
 }
+@media screen and (max-width: 1024px) {
+    .login-container {
+      width: 50%;
+      margin-top: 100px;
+    }
+  }
+  
+  /* For mobile devices (landscape) */
+  @media screen and (max-width: 768px) {
+    .login-container {
+      width: 70%;
+      margin-top: 80px;
+      padding: 15px;
+    }
+  
+    .admin {
+      margin-left: 60px; /* Adjust for better button alignment */
+    }
+  }
+  
+  /* For mobile devices (portrait) */
+  @media screen and (max-width: 480px) {
+    .login-container {
+      width: 90%;
+      margin-top: 60px;
+      padding: 10px;
+    }
+  
+    h1 {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+  
+    button {
+      margin-right: 5px;
+      padding: 10px 15px;
+    }
+  
+    .admin {
+      margin-left: 40px; /* Adjust for smaller screens */
+    }
+  }
+  
 </style>
