@@ -299,7 +299,7 @@ export default {
   border-radius: 5px;
 }
 .count{
-  
+    color: #575757;
     align-items: center;
     margin-left:5px ;
     display: flex;

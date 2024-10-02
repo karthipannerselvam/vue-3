@@ -1,8 +1,8 @@
 <template>
-    <div class="main">
+    <div class="main1">
         <Sidebar />
       <div class="dashboard">
-        <h2>Student Dashboard</h2>
+        <h1 class="h">Student Dashboard</h1>
         <input type="text" v-model="rollno" placeholder="Enter Roll Number" />
         <button @click="fetchStudentData">Search</button>
   
@@ -50,7 +50,7 @@
   <script>
   import axios from 'axios';
   import Sidebar from './sidenav.vue';
-import { eventNames } from '@/models/Batch';
+  import { eventNames } from '@/models/Batch';
   
   export default {
     name: 'StudentDashboard',
@@ -81,7 +81,8 @@ import { eventNames } from '@/models/Batch';
             },
         });
         this.student = response.data.student;
-        this.bookedSlots = response.data.bookedSlots;
+        this.bookedSlots = response.data.slotsToReturn;
+      
         } catch (error) {
         console.error('Error fetching student data:', error);
         alert('Failed to retrieve student information. Please try again.');
@@ -138,25 +139,34 @@ import { eventNames } from '@/models/Batch';
   </script>
   
   <style scoped>
-  .main{
+  .main1{
   background-color: black;
   height: 100%;
-  
+  padding: 20px;
   }
+ .h{
+  color: #f2f2f2;
+ }
   .dashboard {
-    margin: 20px;
-    margin-left: 250px;
+    
+    margin-left: 200px;
     padding: 20px;
-    background-color: rgb(210, 239, 255);
+    color: #f2f2f2;
+    background-color: #333;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
     border-radius: 10px;
-    box-shadow: 8px 8px 2px rgba(164, 165, 165, 0.379);
+    
   }
   
   input {
     padding: 8px;
     margin-right: 10px;
     border-radius: 4px;
+    padding: 15px;
     border: 1px solid #ddd;
+    margin-bottom: 20px;
+    color: #f2f2f2;
   }
   
   button {
@@ -172,15 +182,18 @@ import { eventNames } from '@/models/Batch';
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    color: #f2f2f2;
   }
   
   th, td {
     border: 1px solid #ddd;
     padding: 8px;
+    
   }
   
-  th {
+  th { 
     background-color: #f2f2f2;
+    color: #333;
   }
   
   @media (max-width: 768px) {

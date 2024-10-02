@@ -80,26 +80,29 @@ export default {
 
 <style scoped>
 .container {
-  display: flex;
+  background-color: black;
+  height: 100%;
+  padding: 30px;
 }
 
 .box1 {
-  margin-left: 20px; /* Adjusted for a better layout */
+  margin-left: 200px; /* Adjusted for a better layout */
   padding: 20px;
   flex-grow: 1; /* Makes it responsive */
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #333;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
 }
 
 .box1 h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  
 }
 
 table {
   margin-top: 20px;
+  color: #fff;
 }
 
 .box1 table {
@@ -110,14 +113,14 @@ table {
 
 .box1 th,
 .box1 td {
-  border: 1px solid #9ccacf;
+  
   padding: 10px; /* Increased padding for better spacing */
   text-align: left;
   transition: background-color 0.3s; /* Smooth hover transition */
 }
 
 .box1 th {
-  background-color: #a2c2d2;
+  font-size: large;
   color: black;
 }
 
@@ -129,13 +132,13 @@ table {
 
 .box1 td th,
 .box1 td td {
-  border: 1px solid #9ccacf;
+  border: 1px solid #202020;
   padding: 4px;
   text-align: left;
 }
 
 .box1 tr:hover {
-  background-color: #cfe5ec; /* Highlight on hover */
+  background-color: #202020; /* Highlight on hover */
 }
 
 .box1 td {
@@ -143,11 +146,11 @@ table {
 }
 
 .box1 td table tr {
-  background-color: #f1f1f1; /* Sub-table row background */
+  background-color: #333; /* Sub-table row background */
 }
 
 .box1 td table tr:hover {
-  background-color: #e0e0e0; /* Sub-table row hover effect */
+  background-color: #202020; /* Sub-table row hover effect */
 }
 
 @media (max-width: 768px) {
