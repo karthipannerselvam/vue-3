@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main">
         <Sidebar />
       <div class="dashboard">
         <h2>Student Dashboard</h2>
@@ -138,6 +138,11 @@ import { eventNames } from '@/models/Batch';
   </script>
   
   <style scoped>
+  .main{
+  background-color: black;
+  height: 100%;
+  
+  }
   .dashboard {
     margin: 20px;
     margin-left: 250px;

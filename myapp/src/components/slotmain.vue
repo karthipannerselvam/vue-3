@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
+  <div class="container">
+      <Sidebar />
         
-        <Sidebar />
         <div class="main-contant">
         <div class="box1">
             <div class="split1">
@@ -193,33 +193,40 @@ export default {
 <style  src="vue-multiselect/dist/vue-multiselect.css"></style>
 <style scoped>
 .container{
-  display: flex;
+  
+  background-color: black;
+  height: 100%;
+  padding: 30px;
+  
 }
 .box1{
-    margin: 0 auto;
+    margin-left: 250px;
     padding: 50px;
-    /* height: 500px; */
     width: 1200px;
-    background-color: rgb(210, 239, 255);
+    color: #f2f2f2;
+    
+    background-color: #333;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
     border-radius: 10px;
-    box-shadow: 8px 8px 2px rgba(164, 165, 165, 0.379);
     padding-top: 30px;
     display: flex;
     justify-content: space-around;
-    margin-left: 50px;
-    margin-top: 30px;
+    
+   
 }
 .box2{
-  margin: 0 auto;
+    margin-left: 250px;
     padding: 50px;
-    /* height: 500px; */
     width: 1200px;
-    background-color: rgb(210, 239, 255);
+    
+    color: #f2f2f2;
+    background-color: #333;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
     border-radius: 10px;
-    box-shadow: 8px 8px 2px rgba(164, 165, 165, 0.379);
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 50px;
+    margin-top: 30px;
+    
 
 }
 .slot-details{
@@ -337,5 +344,17 @@ button{
   flex-direction: column;
 }
 
+
+
+
+  .sidenav {
+    width: 100%; /* Make the sidebar full-width on small screens */
+    position: relative; /* Remove fixed positioning on small screens */
+  }
+
+  .split1 {
+    width: 100%; /* Full width on smaller screens */
+    margin-bottom: 20px;
+  }
 }
 </style>
