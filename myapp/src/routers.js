@@ -7,6 +7,9 @@ import AdminSignup from './components/adminsignup.vue';
 import SlotMain from './components/slotmain.vue';
 import SlotTable from './components/slottable.vue'
 import Studentdashboard from './components/studentdashboard.vue';
+import Chart from './components/chart.vue';
+import Chart1 from './components/chart1.vue';
+
 
 const routes = [
   {
@@ -52,6 +55,18 @@ const routes = [
     component:Studentdashboard,
     path:'/student-dash',
   },
+  {
+    name:"Chart",
+    component:Chart,
+    path:'/chart'
+
+  },
+  {
+    name:"Chart1",
+    component:Chart1,
+    path:'/chart1'
+
+  }
 ];
 
 const router = createRouter({

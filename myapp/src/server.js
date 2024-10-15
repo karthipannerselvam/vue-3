@@ -326,8 +326,9 @@ app.get('/booked-slots', async (req, res) => {
 });
 
 app.get('/slot-feedback',async(req,res)=>{
+  const{rollno}=req.query;
   try{
-    const feedback= await SlotFeedback.find();
+    const feedback= await SlotFeedback.find({rollno});
     res.json(feedback);
   }
   catch(err){

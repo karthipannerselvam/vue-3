@@ -30,7 +30,7 @@
                 :custom-label="customLabel"
                 ></vueMultiselect>
             </div>
-            <label for="">Vanue</label>
+            <label for="">Venue</label>
             <div class="counter">
             <div class="count" id="count">{{ count }}
                 <div class="countbtn">

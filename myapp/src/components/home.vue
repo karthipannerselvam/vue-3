@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <Header />
+    <Sidebar1 />
     <div class="slot-table">
       <h2>Available Slots</h2>
       <table>
@@ -50,6 +50,7 @@
           <tr>
             <th>Event Name</th>
             <th>Date</th>
+            <th>Slot</th>
             <th>Venue</th>
           </tr>
         </thead>
@@ -57,41 +58,34 @@
           <tr v-for="bookedSlot in bookedSlots" :key="bookedSlot._id">
             <td>{{ bookedSlot.eventName }}</td>
             <td>{{ formatDate(bookedSlot.date) }}</td>
+            <td>{{ bookedSlot.slot }}</td>
             <td>{{ bookedSlot.venue }}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="dashboard">
-      <h2>Slot Performance Dashboard</h2>
-      <canvas id="scaleChart" aria-label="Scale Rating Chart" aria-describedby="scaleChartDesc"></canvas>
-      
-      
-      
-    </div>
+    
   </div>
 </template>
 
 
 <script>
 import axios from 'axios';
-import Header from './header.vue';
-import Chart from 'chart.js/auto';
+import Sidebar1 from '../components/sidenav1.vue'
+
 
 
 
 export default {
   name: 'SlotTable',
   components: {
-    Header
+    Sidebar1,
   },
   data() {
     return {
-      scaleChart: null,
       slots: [],
       bookedSlots: [],
-      feedbackData: [],
       selectedVenue: {},
       selectedSlot: {}
     };
@@ -137,13 +131,7 @@ export default {
         this.bookedSlots = bookedResponse.data;
 
         
-        const feedbackResponse = await axios.get('http://127.0.0.1:3030/slot-feedback',{
-          headers: {
-              Authorization: `Bearer ${token}`,
-            }
-        });
-        
-        this.feedbackData = feedbackResponse.data;
+       
         
         
     } catch (error) {
@@ -233,95 +221,10 @@ export default {
 
       return `${day}/${month}/${year}`;
     },
-    renderCharts() {
-        const canvas = document.getElementById('scaleChart');
-        if (canvas) {
-          const ctx = canvas.getContext('2d');
-
-          // Clear the previous chart content
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-          // If a previous chart exists, destroy it
-          if (this.scaleChart) {
-            this.scaleChart.destroy();
-          }
-
-          // Create a new chart instance
-          this.scaleChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: this.feedbackData.map(f => f.eventName),
-              datasets: [{
-                label: 'Scale Rating (1-5)',
-                data: this.feedbackData.map(f => f.scale),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                borderRadius: 5,
-              }],
-            },
-            options: {
-              layout: {
-                padding: {
-                  left: 0, // Remove left padding
-                  right: 0,
-                  top: 0,
-                  bottom: 0
-                }
-              },
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  max: 5,
-                },
-              },
-              plugins: {
-              tooltip: {
-                enabled: true, // Enable tooltip
-                backgroundColor: 'rgba(0, 0, 0, 0.7)', // Tooltip background color
-                titleColor: '#fff', // Tooltip title text color
-                bodyColor: '#fff', // Tooltip body text color
-                borderWidth: 1, // Tooltip border width
-                borderColor: '#fff', // Tooltip border color
-                displayColors: false, // Disable color box next to the tooltip text
-                callbacks: {
-                  // Customize tooltip labels
-                  label: function (tooltipItem) {
-                                const dataIndex = tooltipItem.dataIndex; // Get the index of the tooltip item
-                                const dataPoint = this.feedbackData[dataIndex];
-                                const formattedDate = new Date(dataPoint.date).toISOString().split('T')[0];
-                                return [
-                                    `Rating: ${tooltipItem.raw}`, // Display 'Rating: <value>'
-                                    `Remark: ${dataPoint.remarks}`, // Display remark
-                                    `Date: ${formattedDate}`, // Display date
-                                    `Venue: ${dataPoint.venue}`, // Display venue
-                                ];
-                            }.bind(this), 
-                  title: function (tooltipItems) {
-                    const item = tooltipItems[0]; // Display the event name as title
-                    return `Event: ${item.label}`;
-                  },
-                }
-              },
-            },          
-            },
-          });
-        }
-      }
+    
 
   },
-  watch: {
-    feedbackData(newData) {
-      if (newData && newData.length > 0) {
-        this.renderCharts();
-      }
-    }
-  },
-  mounted() {
-    if (this.feedbackData.length > 0) {
-      this.renderCharts();
-    }
-  }
+  
 };
 </script>
 
@@ -338,13 +241,15 @@ body, html {
   
 }
 .container {
+  
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden; 
 }
 .slot-table {
-  margin: 0 auto;
+  margin-left: 250px;
+  margin-top: 50px;
   padding: 20px;
   width: 80%;
   background-color: rgba(86, 86, 86, 0.495);

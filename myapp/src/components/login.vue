@@ -14,7 +14,7 @@
           @focus="clearStatus"
           @keypress="clearStatus"
           placeholder="Enter Password">
-        <p v-if="submitting && error" class="error-message">{{ errorMessage }}</p>
+        <p v-if="error" class="error-message">{{ errorMessage }}</p>
   
         <button v-on:click="login">Login</button>
         <button class="signin" @click="$router.push('/sign-up')">Sign Up</button>
@@ -110,7 +110,7 @@
   .main{
     background-color: black;
     display: flex;
-    height: 1000px;
+    /* height: 1000px; */
     flex-direction: column;
   }
   .login-container {

@@ -2,7 +2,7 @@
     <div class="main1">
         <Sidebar />
       <div class="dashboard">
-        <h1 class="h">Student Dashboard</h1>
+        <h1 class="h">Student Remark</h1>
         <input type="text" v-model="rollno" placeholder="Enter Roll Number" />
         <button @click="fetchStudentData">Search</button>
   

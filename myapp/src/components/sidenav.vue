@@ -3,8 +3,9 @@
     <nav class="sidenav">
       <ul>
         
-        <li @click="$router.push('/student-dash')">Student Dashboard</li>
+        <li @click="$router.push('/student-dash')">Student Remark</li>
         <li @click="$router.push('/slot-main')">Slot Booking</li>
+        <li @click="$router.push('/chart1')">Slot Dashboard</li>
         <li @click="$router.push('/slot-table')">Slot Table</li>
       </ul>
       

@@ -15,7 +15,7 @@
              @focus="clearStatus"
              @keypress="clearStatus"
             placeholder="Enter Password">
-            <p v-if="submitting && error" class="error-message">Please fill out all the required fields!</p>
+            <p v-if="error" class="error-message">Please fill out all the required fields!</p>
             <button v-on:click="login">Login</button>
             <button class="signin" @click="$router.push('/asign-up')">Sign Up</button>
             <button class="admin" @click="$router.push('/log-in')">User</button>
