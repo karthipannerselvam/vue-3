@@ -231,7 +231,7 @@ export default {
 
 <style scoped>
 .main{
-  background-color: black;
+  background-color: whitesmoke;
 }
 body, html {
   margin: 0;
@@ -252,7 +252,7 @@ body, html {
   margin-top: 50px;
   padding: 20px;
   width: 80%;
-  background-color: rgba(86, 86, 86, 0.495);
+  background-color: #C8D4FF;
   border-radius: 10px;
 
   margin-bottom: 50px;
@@ -264,33 +264,33 @@ body, html {
 
   font-family: 'Arial', sans-serif;
   font-size: 16px;
-  color: #fff;
+  color: #3e3e3e;
   text-align: center;
   letter-spacing: 0.5px;
-
-  border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
-
+ 
 }
 
 
 .slot-table table {
+  
   width: 100%;
   border-collapse: collapse;
 }
 
 .slot-table th, .slot-table td {
   padding: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  
   text-align: left;
 }
 
 .slot-table th {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #d5d5d5; 
+  background-color: rgb(255, 255, 255);
+  
+  color: #3e3e3e; 
 }
 
 .slot-table td {
-  color: rgba(255, 255, 255, 0.8);
+  color: #3e3e3e;
 }
 
 
