@@ -30,8 +30,8 @@
 <style scoped>
 
 .sidenav {
-  width: 200px; /* Make sure the width is flexible */
-  background-color: #333;
+  width: 200px; 
+  background-color: #474554;
   color: white;
   height: 100vh;
   padding-top: 20px;
@@ -40,9 +40,10 @@
   top: 0;
   display: flex;
   flex-direction: column;
+  font-family: 'Poppins';
   justify-content: space-between;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  transition: width 0.3s ease; /* For a smoother transition */
+  transition: width 0.3s ease; 
 }
 
 .sidenav ul {
@@ -61,8 +62,9 @@
 }
 
 .logout-btn {
-  background-color: rgba(0, 0, 0, 0.248);
-  border-image: linear-gradient(45deg, #ff8a80, #8a80ff) 1;
+  font-family: 'Poppins';
+  background-color:#aca7cb;
+  border: none;
   color: white;
   width:100px;
   cursor: pointer;
@@ -72,7 +74,7 @@
 }
 
 .logout-btn:hover {
-  background-color: #5d4242;
+  background-color: #948fb3;
 }
 
 @media (max-width: 768px) {

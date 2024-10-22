@@ -193,8 +193,8 @@ export default {
 <style  src="vue-multiselect/dist/vue-multiselect.css"></style>
 <style scoped>
 .container{
-  
-  background-color: black;
+  font-family: 'Poppins';
+  background-color: white;
   height: 100%;
   padding: 30px;
   
@@ -203,11 +203,9 @@ export default {
     margin-left: 250px;
     padding: 50px;
     width: 1200px;
-    color: #f2f2f2;
-    
-    background-color: #333;
+    color: #3e3e3e;
+    background-color: #aca7cb;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
     border-radius: 10px;
     padding-top: 30px;
     display: flex;
@@ -219,11 +217,9 @@ export default {
     margin-left: 250px;
     padding: 50px;
     width: 1200px;
-    
-    color: #f2f2f2;
-    background-color: #333;
+    color: #3e3e3e;
+    background-color: #aca7cb;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
     border-radius: 10px;
     margin-top: 30px;
     
@@ -234,61 +230,6 @@ export default {
   gap: 10px;
 }
 
-.sidenav {
-    width: 200px;
-    background-color: #333;
-    color: white;
-    height: 100vh;
-    padding-top: 20px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    display: flex;
-   flex-direction: column;
-    overflow-x: hidden; /* Disable horizontal scroll */
-    justify-content: space-between;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.sidenav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidenav ul li {
-    padding: 15px 20px;
-    text-align: left;
-    cursor: pointer;
-}
-
-.sidenav ul li:hover {
-    background-color: #575757;
-}
-
-.sidenav ul li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-}
-
-.sidenav ul li a:hover {
-    background-color: #575757;
-}
-.logout-btn {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 15px 20px;
-  margin-left:20px ;
-  cursor: pointer;
-  text-align: left;
-  margin-bottom: 50px; 
-}
-
-.logout-btn:hover {
-  background-color: #5d4242;
-}
 .input{
     background-color: rgb(253, 253, 253);
     
@@ -308,8 +249,14 @@ export default {
    
 }
 button{
+  background-color: #474554;
+  border: none;
   margin: 0 0 0;
   margin-right: 2px;
+}
+button:hover{
+  background-color: #2f2e39;
+  border: none;
 }
 .btn{
   margin-top:20px ;

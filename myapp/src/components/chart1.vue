@@ -11,9 +11,9 @@
             </div>
 
             <!-- Only show the chart if feedbackData is available -->
-            <div v-if="feedbackData.length > 0">
-                <canvas id="scaleChart" aria-label="Scale Rating Chart" aria-describedby="scaleChartDesc"></canvas>
-            </div>
+        </div>
+        <div v-if="feedbackData.length > 0">
+            <canvas id="scaleChart" aria-label="Scale Rating Chart" aria-describedby="scaleChartDesc"></canvas>
         </div>
     </div>
 </template>
@@ -151,16 +151,21 @@ export default {
 </script>
 
 <style scoped>
+.main{
+    display: flex;
+    flex-direction: column
+}
 .dashboard {
     margin-top: 70px;
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 500px;
-    background-color: black;
-    color: white;
+    height: auto;
+    width: fit-content;
+    color: #3e3e3e;
     margin-left: 200px;
+}
+input{
+    color: #3e3e3e;
 }
 h2 {
     margin-left: 400px;
@@ -171,9 +176,9 @@ canvas {
     margin: 20px auto;
     max-width: 600px;
     height: 400px;
+    margin-left: 400px;
 }
 
-/* Style for the input form */
 .form-container {
     margin-left: 400px;
     margin-bottom: 20px;
@@ -186,12 +191,11 @@ input[type="text"] {
     border-radius: 4px;
     color: black; /* Adjusted text color for better visibility */
     margin-right: 10px;
-    color: white;
 }
 
 button {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #474554;
     color: white;
     border: none;
     border-radius: 4px;
@@ -199,6 +203,6 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #313039;
 }
 </style>

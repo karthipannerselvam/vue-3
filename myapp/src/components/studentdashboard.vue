@@ -13,6 +13,7 @@
           <p><strong>Roll Number:</strong> {{ student.rollno }}</p>
   
           <h3>Booked Slots</h3>
+          <div class="bslot">
           <table v-if="bookedSlots && bookedSlots.length">
             <thead>
               <tr>
@@ -42,6 +43,7 @@
             </tbody>
           </table>
           <p v-else>No slots booked.</p>
+        </div>
         </div>
       </div>
     </div>
@@ -140,21 +142,19 @@
   
   <style scoped>
   .main1{
-  background-color: black;
+  background-color: white;
   height: 100%;
   padding: 20px;
   }
  .h{
-  color: #f2f2f2;
+  color: #3e3e3e;
  }
   .dashboard {
-    
     margin-left: 200px;
     padding: 20px;
-    color: #f2f2f2;
-    background-color: #333;
+    color: #3e3e3e;
+    background-color: #aca7cb;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
     border-radius: 10px;
     
   }
@@ -166,12 +166,22 @@
     padding: 15px;
     border: 1px solid #ddd;
     margin-bottom: 20px;
-    color: #f2f2f2;
+    width: fit-content;
+    color: #3e3e3e;
+    background-color: white;
   }
-  
+  .bslot{
+    background-color: #474554;
+    color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .bslot button{
+    background-color:#aca7cb ;
+  }
   button {
     padding: 8px 16px;
-    background-color: #4CAF50; 
+    background-color: #474554; 
     color: white;
     border: none;
     border-radius: 4px;
@@ -182,19 +192,10 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    color: #f2f2f2;
+    color: #f1f1f1;
   }
   
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    
-  }
-  
-  th { 
-    background-color: #f2f2f2;
-    color: #333;
-  }
+ 
   
   @media (max-width: 768px) {
     .dashboard {
