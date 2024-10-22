@@ -72,8 +72,7 @@ export default {
                         datasets: [{
                             label: 'Scale Rating (1-5)',
                             data: this.feedbackData.map(f => f.scale),
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: '#474554',
                             borderWidth: 1,
                             borderRadius: 5,
                         }],
@@ -142,24 +141,28 @@ export default {
 </script>
 
 <style scoped>
+.main{
+    display: flex;
+    justify-content: center;
+}
 .dashboard {
+    
     margin-top: 70px;
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 500px;
-    background-color: black;
-    color: white;
+    height: auto;
+    width: fit-content;
+    background-color: #aca7cb;
+    color: #3e3e3e;
     margin-left: 200px;
 }
 h2{
-    margin-left: 400px;
+    text-align: center;
     margin-bottom: 50px;
 }
 
 canvas {
-    margin: 20px auto;
     max-width: 600px;
     height: 400px;
 }

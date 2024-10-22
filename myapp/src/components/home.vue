@@ -252,53 +252,39 @@ body, html {
   margin-top: 50px;
   padding: 20px;
   width: 80%;
-  background-color: #C8D4FF;
+  background-color: #aca7cb;
   border-radius: 10px;
-
   margin-bottom: 50px;
   transition: box-shadow 0.3s, transform 0.3s; /* Added transform transition */
-
-
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  
-
-  font-family: 'Arial', sans-serif;
+  border: 2px solid rgba(58, 58, 58, 0.2);
+  font-weight: 550;
+  font-family: 'Poppins';
   font-size: 16px;
   color: #3e3e3e;
   text-align: center;
   letter-spacing: 0.5px;
- 
 }
 
 
 .slot-table table {
-  
   width: 100%;
   border-collapse: collapse;
 }
 
 .slot-table th, .slot-table td {
   padding: 10px;
-  
   text-align: left;
 }
 
 .slot-table th {
   background-color: rgb(255, 255, 255);
-  
   color: #3e3e3e; 
 }
-
-.slot-table td {
-  color: #3e3e3e;
-}
-
-
-
 h2 {
   text-align: center;
-  color: #f2f2f2;
+  color: #3e3e3e;
   margin-bottom: 20px;
+  font-family: 'Poppins';
 }
 
 table {
@@ -307,23 +293,18 @@ table {
   margin-bottom: 30px;
   border-radius: 5px;
 }
-thead,tbody{
+thead{
  border-radius: 5px;
 }
-
-
 
 th {
   background-color: #f2f2f2;
   color: #555;
 }
 
-tr:hover {
-  background-color: rgba(0, 123, 255, 0.1);
-}
 
 button {
-  background-color: #4CAF50; /* Green */
+  background-color: #474554; /* Green */
   border: none;
   color: white;
   padding: 8px 12px;
@@ -331,6 +312,7 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 14px;
+  font-family: 'Poppins';
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
@@ -338,7 +320,7 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #3a384a;
   transform: scale(1.05);
 }
 

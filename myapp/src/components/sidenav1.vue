@@ -31,7 +31,8 @@
   
   .sidenav {
     width: 200px; /* Make sure the width is flexible */
-    background-color: #333;
+    background-color: #474554;
+    font-family: 'Poppins';
     color: white;
     height: 100vh;
     padding-top: 20px;
@@ -62,18 +63,19 @@
   }
   
   .logout-btn {
-    background-color: rgba(0, 0, 0, 0.248);
-    border-image: linear-gradient(45deg, #ff8a80, #8a80ff) 1;
+    background-color: #aca7cb;
+    border: none;
     color: white;
     width:100px;
     cursor: pointer;
     text-align: left;
     padding: 15px 20px;
+    font-family: 'Poppins';
     margin-left: 40px;
   }
   
   .logout-btn:hover {
-    background-color: #5d4242;
+    background-color: #8d88b4;
   }
   
   @media (max-width: 768px) {
