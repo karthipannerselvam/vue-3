@@ -80,7 +80,7 @@ export default {
 
 <style scoped>
 .container {
-  background-color: black;
+  background-color: white;
   height: 100%;
   padding: 30px;
 }
@@ -89,9 +89,10 @@ export default {
   margin-left: 200px; /* Adjusted for a better layout */
   padding: 20px;
   flex-grow: 1; /* Makes it responsive */
-  background-color: #333;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-image: linear-gradient(45deg, #ff6f61, #6f7fff) 1;
+  background-color: #aca7cb;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: #3e3e3e;
 }
 
 .box1 h2 {
@@ -102,7 +103,7 @@ export default {
 
 table {
   margin-top: 20px;
-  color: #fff;
+  color: #3e3e3e;
 }
 
 .box1 table {
@@ -138,20 +139,14 @@ table {
 }
 
 .box1 tr:hover {
-  background-color: #202020; /* Highlight on hover */
+  background-color: #9993bd; /* Highlight on hover */
 }
 
 .box1 td {
   vertical-align: top; /* Aligns nested tables to the top */
 }
 
-.box1 td table tr {
-  background-color: #333; /* Sub-table row background */
-}
 
-.box1 td table tr:hover {
-  background-color: #202020; /* Sub-table row hover effect */
-}
 
 @media (max-width: 768px) {
   .box1 {
