@@ -41,7 +41,7 @@
             
             <button v-on:click="signUp" class="full-width-button">Sign Up</button>
             <p class="login-prompt">Do you have an account already? 
-              <span class="login-link" @click="$router.push('/log-in')">Log In</span>
+              <span class="login-link" @click="$router.push('/')">Log In</span>
             </p>
         </div>
     </div>

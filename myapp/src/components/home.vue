@@ -94,7 +94,6 @@ export default {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            // Handle missing token (e.g., redirect to login)
             return;
         }
 

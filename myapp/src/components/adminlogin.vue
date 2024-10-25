@@ -5,7 +5,7 @@
         <div class="login">
             <h1> Admin Login</h1>
             <div class="button-group">
-            <button class="user" @click="$router.push('/log-in')">User</button>
+            <button class="user" @click="$router.push('/')">User</button>
             <button class="admin" @click="$router.push('/alog-in')">Admin</button>
             </div>
             <label for="rollno" class="input-label">Enter Email</label>

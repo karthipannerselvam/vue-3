@@ -10,7 +10,8 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
-
+const nodemailer = require('nodemailer');
+const schedule = require('node-schedule');
 app.use(cors()); 
 app.use(bodyParser.json()); 
 
@@ -21,21 +22,58 @@ app.use(session({
   cookie: { secure: false }
 }));
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'karthipannerselvam173@gmail.com',
+    pass: 'dywp wwja hvqf niab', 
+  },
+});
+function sendEmail(event) {
+  const mailOptions = {
+    from: 'karthipannerselvam173@gmail.com',
+    to: 'karthi.cs22@bitsathy.ac.in',
+    subject: `Reminder: ${event.eventName} on ${new Date(event.date).toLocaleDateString()}`,
+    text: `This is a reminder for the ${event.eventName} scheduled on ${new Date(event.date)}. \nYou have booked a slot today, kindly be in slot without fail. \n\nVenue: ${event.venue}\nSlot: ${event.slot}\nRoll No: ${event.rollno}\nThank You`,
+  };
 
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log('Error: ' + error);
+    }
+    console.log('Email sent: ' + info.response);
+  });
+}
 
+const scheduleEmails = async () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
 
+  try {
+ 
+    const events = await Booking.find({ booked: true });
+    const todaysEvents = events.filter(event => {
+      const eventDate = new Date(event.date); // Convert string to Date object
+      return eventDate >= today && eventDate < tomorrow; // Compare dates
+    });
+    console.log(`Scheduling ${todaysEvents.length} emails for today:`);
 
-// Middleware to verify JWT and attach userId to req
+    todaysEvents.forEach(event => {
+      const scheduledDate = new Date(event.date);
+      scheduledDate.setHours(12); 
+      scheduledDate.setMinutes(32); 
+      schedule.scheduleJob(scheduledDate, function () {
+        sendEmail(event);
+      });
+    });
+  } catch (error) {
+    console.error('Error fetching events:', error);
+  }
+}
 
-
-
-
-
-
-
-
-
-
+scheduleEmails();
 
 
 

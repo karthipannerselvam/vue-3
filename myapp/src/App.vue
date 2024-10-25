@@ -8,7 +8,6 @@
 
 
 <script>
-// import Admin from './components/admin/Admin.vue'
 
 
 

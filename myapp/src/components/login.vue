@@ -5,7 +5,7 @@
         <h1>Login</h1>
 
         <div class="button-group">
-          <button class="user" @click="$router.push('/log-in')">User</button>
+          <button class="user" @click="$router.push('/')">User</button>
           <button class="admin" @click="$router.push('/alog-in')">Admin</button>
         </div>
 
@@ -79,7 +79,6 @@
             const token = response.data.token;
             if (token) {
               localStorage.setItem('token', token);
-              console.log('Token stored:', token);  
               this.$router.push({ name: 'Home' });
             } else {
               console.error('No token returned from login');
@@ -98,12 +97,12 @@
       }
     },
     
-    mounted() {
-      let user = localStorage.getItem('token');
-      if (user) {
-        this.$router.push({ name: 'Home' });
-      }
-    },
+    // mounted() {
+    //   let user = localStorage.getItem('token');
+    //   if (user) {
+    //     this.$router.push({ name: 'Home' });
+    //   }
+    // },
     
     computed: {
       invalidRollno() {
