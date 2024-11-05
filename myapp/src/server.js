@@ -55,8 +55,8 @@ const scheduleEmails = async () => {
  
     const events = await Booking.find({ booked: true });
     const todaysEvents = events.filter(event => {
-      const eventDate = new Date(event.date); // Convert string to Date object
-      return eventDate >= today && eventDate < tomorrow; // Compare dates
+      const eventDate = new Date(event.date); 
+      return eventDate >= today && eventDate < tomorrow; 
     });
     console.log(`Scheduling ${todaysEvents.length} emails for today:`);
 
