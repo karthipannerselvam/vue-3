@@ -12,8 +12,10 @@
 
             <!-- Only show the chart if feedbackData is available -->
         </div>
+        <div class="canva">
         <div v-if="feedbackData.length > 0">
             <canvas id="scaleChart" aria-label="Scale Rating Chart" aria-describedby="scaleChartDesc"></canvas>
+        </div>
         </div>
     </div>
 </template>
@@ -93,8 +95,7 @@ export default {
                         datasets: [{
                             label: 'Scale Rating (1-5)',
                             data: this.feedbackData.map(f => f.scale),
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: '#474554',
                             borderWidth: 1,
                             borderRadius: 5,
                         }],
@@ -162,6 +163,9 @@ export default {
     height: auto;
     width: fit-content;
     color: #3e3e3e;
+    margin-left: 200px;
+}
+.canva{
     margin-left: 200px;
 }
 input{
